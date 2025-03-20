@@ -1,16 +1,21 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using X.Models;
+
+namespace X.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UserController : ControllerBase
+public class UserController(UserManager<User> userManager,IConfiguration configuration,JWTGenerator jwtGenerator) : ControllerBase
 {
-    private readonly UserManager<User> _userManager;
+    private readonly UserManager<User> _userManager= userManager;
+    private readonly IConfiguration _configuration = configuration;
+    private readonly IJwtGenerator _jwtGenerator = jwtGenerator;
 
-    public UserController(UserManager<User> userManager)
-    {
-        _userManager = userManager;
-    }
     // GET: api/user
     [HttpGet]
     public ActionResult<IEnumerable<string>> Get()
@@ -23,15 +28,26 @@ public class UserController : ControllerBase
             LastName = u.LastName ?? "N/A",
             Address = u.Address ?? "N/A"
         }).ToList();
+        if(us[0].Email ==null) return NotFound("User Not Found.");
         return Ok(us);
     }
-
+    [HttpPost("login")]
+    public async Task<ActionResult<string>> Login(LoginUser user){
+        User? u = await _userManager.FindByEmailAsync(user.Email);
+        Console.WriteLine(u);
+        if(u == null) return NotFound("User Not Found.");
+        if(await _userManager.CheckPasswordAsync(u, user.Password)){
+            return Ok(new{jwtToken= jwtGenerator.GenerateJwtToken(u, "User")});
+        }
+        return Ok("Wrong Password Entered, Try Again.");
+    }
     // GET: api/user/5
     [HttpGet("{id}")]
     public async Task<ActionResult<string>> Get(string id)
     {
         try{
             User? user = await _userManager.FindByIdAsync(id);
+            if(user == null) return NotFound("User Not Found.");
             var u = new{
                 user?.UserName,
                 user?.Email,
