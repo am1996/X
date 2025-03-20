@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
+namespace X.Services;
 public interface IJwtGenerator
 {
     string GenerateJwtToken(User user,string role);
@@ -18,9 +19,10 @@ public class JWTGenerator(IConfiguration configuration) : IJwtGenerator
             ?? throw new Exception("Secret Key not found"));
         var tokenDescriptor = new SecurityTokenDescriptor{
             Subject = new ClaimsIdentity([
-                new Claim(ClaimTypes.Name, user.Id)
+                new Claim(ClaimTypes.Name, user.Id),
+                new Claim(ClaimTypes.Role, role),
             ]),
-            Expires = DateTime.UtcNow.AddHours(1),
+            Expires = DateTime.UtcNow.AddDays(90),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(keyBytes), 
                 SecurityAlgorithms.HmacSha256Signature)
         };
