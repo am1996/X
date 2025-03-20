@@ -63,7 +63,7 @@ public class UserController(UserManager<User> userManager,IConfiguration configu
 
     // POST: api/user
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] RegisterUser model)
+    public async Task<IActionResult> Register([FromBody] RegisterUser model)
     {
         if(_userManager.Users.Any(u => u.UserName == model.UserName || u.Email == model.Email)){
             return BadRequest(new{message = "Username or Email already exists"});
@@ -91,7 +91,13 @@ public class UserController(UserManager<User> userManager,IConfiguration configu
 
     // DELETE: api/user/5
     [HttpDelete("{id}")]
-    public void Delete(string id)
+    public async Task<IActionResult> Delete(string id)
     {
+        User? u = await _userManager.FindByIdAsync(id);
+        if(u != null){
+            await _userManager.DeleteAsync(u);
+            return Ok("User Deleted Successfully.");
+        }
+        return NotFound("User Not Found.");
     }
 }
