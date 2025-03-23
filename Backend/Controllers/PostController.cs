@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using X.Models;
 
 namespace X.Controllers
@@ -8,19 +10,23 @@ namespace X.Controllers
     public class PostController : ControllerBase
     {
         private readonly XContext _x_context;
-        public PostController(XContext xContext)
+        private readonly IConfiguration _configuration;
+        public PostController(XContext xContext,IConfiguration configuration)
         {
             _x_context = xContext;
+            _configuration = configuration;
         }
         // GET: api/post
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
+            Log.Debug("JWT Auth Token: "+ _configuration["JwtSettings:Secret"] ?? "Secret Key not found");
             List<Post> posts = [.. _x_context.Posts];
             return Ok(posts);
         }
 
         // GET: api/post/5
+        [Authorize]
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {

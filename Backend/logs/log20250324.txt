@@ -1,0 +1,2 @@
+2025-03-24 00:59:35.924 +02:00 [DBG] JWT Auth Token: super-long-sercret-password-that-i-saw-on-stackoverflow
+2025-03-24 01:00:26.842 +02:00 [DBG] JWT Auth Token: super-long-sercret-password-that-i-saw-on-stackoverflow

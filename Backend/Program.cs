@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using X.Services;
 
 
@@ -14,8 +15,20 @@ var jwtSettings = new {
 };
 string ConnectionString = builder.Configuration.GetConnectionString("MySQLConnectionString")!;
 
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Warning)
+    .MinimumLevel.Override("System", Serilog.Events.LogEventLevel.Warning)
+    .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
+    .WriteTo.Console()
+    .CreateLogger();
+
+builder.Logging.AddSerilog(Log.Logger);
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>{
-    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters{
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters{
         ValidateAudience =true,
         ValidateLifetime=true,
         ValidateIssuer=true,
@@ -23,6 +36,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidIssuer = jwtSettings.Secret,
         ValidAudience = jwtSettings.Audience,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret!))
+    };
+    options.Events = new JwtBearerEvents{
+        OnChallenge = context =>{
+            context.HttpContext.Response.StatusCode = 401;
+            context.HttpContext.Response.ContentType = "application/json";
+            return context.Response.WriteAsync("{ \"redirect\": \"/User/Login\", \"message\": \"Invalid Token\" }");
+        }
     };
 });
 builder.Services.AddAuthorization();
