@@ -58,7 +58,6 @@ builder.Services.AddAuthentication(options => {
             },
             OnAuthenticationFailed = context =>
             {
-                Console.WriteLine($"❌ Authentication failed: {context.Exception.Message}");
                 context.Response.StatusCode = 401;
                 context.Response.ContentType = "application/json";
                 return context.Response.WriteAsync("{ \"error\": \"Invalid token\" }");

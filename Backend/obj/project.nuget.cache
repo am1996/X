@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "6jkXh2z5URU=",
+  "dgSpecHash": "0Pwlg+BYYCI=",
   "success": true,
   "projectFilePath": "E:\\Ahmed\\projects\\Learning C#\\X\\Backend\\X.csproj",
   "expectedPackageFiles": [
@@ -49,6 +49,7 @@
     "C:\\Users\\AM\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
     "C:\\Users\\AM\\.nuget\\packages\\mysqlconnector\\2.3.5\\mysqlconnector.2.3.5.nupkg.sha512",
     "C:\\Users\\AM\\.nuget\\packages\\pomelo.entityframeworkcore.mysql\\8.0.3\\pomelo.entityframeworkcore.mysql.8.0.3.nupkg.sha512",
+    "C:\\Users\\AM\\.nuget\\packages\\rocksdb\\9.10.0.55496\\rocksdb.9.10.0.55496.nupkg.sha512",
     "C:\\Users\\AM\\.nuget\\packages\\serilog\\4.2.0\\serilog.4.2.0.nupkg.sha512",
     "C:\\Users\\AM\\.nuget\\packages\\serilog.aspnetcore\\9.0.0\\serilog.aspnetcore.9.0.0.nupkg.sha512",
     "C:\\Users\\AM\\.nuget\\packages\\serilog.extensions.hosting\\9.0.0\\serilog.extensions.hosting.9.0.0.nupkg.sha512",

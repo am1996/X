@@ -66,6 +66,10 @@
               "target": "Package",
               "version": "[8.0.3, )"
             },
+            "RocksDB": {
+              "target": "Package",
+              "version": "[9.10.0.55496, )"
+            },
             "Serilog.AspNetCore": {
               "target": "Package",
               "version": "[9.0.0, )"

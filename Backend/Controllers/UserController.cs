@@ -74,7 +74,13 @@ public class UserController(UserManager<User> userManager,IConfiguration configu
         };
         IdentityResult result = await _userManager.CreateAsync(user, model.Password);
         if(result.Succeeded){
-            return Ok(new{message = "User created successfully", user});
+            return Ok(new{message = "User created successfully", user = new{
+                username = user.UserName,
+                email = user.Email,
+                firstname = user.FirstName,
+                lastname = user.LastName,
+                address = model.Address
+            }});
         }else{
             return BadRequest("One of the fields is missing.");
         }
