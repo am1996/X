@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -17,6 +18,7 @@ namespace X.Controllers
             _configuration = configuration;
         }
         // GET: api/post
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
@@ -26,7 +28,7 @@ namespace X.Controllers
         }
 
         // GET: api/post/5
-        [Authorize]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
