@@ -10,9 +10,10 @@ public interface IJwtGenerator
     string GenerateJwtToken(User user, string role);
 }
 
-public class JWTGenerator(IConfiguration configuration) : IJwtGenerator
+public class JWTGenerator(IConfiguration configuration,IRocksService rocksService) : IJwtGenerator
 {
     private readonly IConfiguration _configuration = configuration;
+    private readonly IRocksService _rocksDbService = rocksService;
 
     public string GenerateJwtToken(User user, string role)
     {
@@ -25,12 +26,11 @@ public class JWTGenerator(IConfiguration configuration) : IJwtGenerator
 
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new[]
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), // ✅ Corrected User ID claim
+            Subject = new ClaimsIdentity([
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim(ClaimTypes.Name, user.UserName!), // ✅ Added username
                 new Claim(ClaimTypes.Role, role),
-            }),
+            ]),
             Expires = DateTime.UtcNow.AddDays(90), // ✅ Expiration set to 90 days
             Issuer = _configuration["JwtSettings:Issuer"],
             Audience = _configuration["JwtSettings:Audience"],
@@ -39,6 +39,7 @@ public class JWTGenerator(IConfiguration configuration) : IJwtGenerator
 
         SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
         string tokenString = tokenHandler.WriteToken(token);
+        _rocksDbService.Add(user.Id, tokenString, tokenDescriptor.Expires!.Value);
 
         return tokenString;
     }

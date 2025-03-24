@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using X.Models;
@@ -7,10 +9,10 @@ namespace X.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UserController(UserManager<User> userManager,IConfiguration configuration,JWTGenerator jwtGenerator) : ControllerBase
+public class UserController(UserManager<User> userManager,IRocksService db,JWTGenerator jwtGenerator) : ControllerBase
 {
     private readonly UserManager<User> _userManager= userManager;
-    private readonly IConfiguration _configuration = configuration;
+    private readonly IRocksService _db = db;
     private readonly IJwtGenerator _jwtGenerator = jwtGenerator;
 
     // GET: api/user
@@ -34,16 +36,24 @@ public class UserController(UserManager<User> userManager,IConfiguration configu
         Console.WriteLine(u);
         if(u == null) return NotFound("User Not Found.");
         if(await _userManager.CheckPasswordAsync(u, user.Password)){
-            return Ok(new{jwtToken= jwtGenerator.GenerateJwtToken(u, "User")});
+            return Ok(new{jwtToken= _jwtGenerator.GenerateJwtToken(u, "User")});
         }
         return Ok("Wrong Password Entered, Try Again.");
     }
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [HttpPost("logout")]
+    public ActionResult Logout(){
+        string? token = Request.Headers.Authorization;
+        if (token == null) return BadRequest("Token not found.");
+        _db.Delete(token);
+        return Ok("Logged Out Successfully.");
+    }
     // GET: api/user/5
-    [HttpGet("{id}")]
-    public async Task<ActionResult<string>> Get(string id)
+    [HttpGet("{username}")]
+    public async Task<ActionResult<string>> Get(string username)
     {
         try{
-            User? user = await _userManager.FindByIdAsync(id);
+            User? user = await _userManager.FindByNameAsync(username);
             if(user == null) return NotFound("User Not Found.");
             var u = new{
                 user?.UserName,
