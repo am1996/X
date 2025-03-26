@@ -15,6 +15,16 @@ public class UserController(UserManager<User> userManager,IRocksService db,JWTGe
     private readonly IRocksService _db = db;
     private readonly IJwtGenerator _jwtGenerator = jwtGenerator;
 
+
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [HttpPost("logout")]
+    public ActionResult Logout(){
+        string? token = Request.Headers.Authorization;
+        if (token == null) return BadRequest("Token not found.");
+        _db.Delete(token);
+        return Ok("Logged Out Successfully.");
+    }
+
     // GET: api/user
     [HttpGet]
     public ActionResult<IEnumerable<string>> Get()
@@ -39,33 +49,6 @@ public class UserController(UserManager<User> userManager,IRocksService db,JWTGe
             return Ok(new{jwtToken= _jwtGenerator.GenerateJwtToken(u, "User")});
         }
         return Ok("Wrong Password Entered, Try Again.");
-    }
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [HttpPost("logout")]
-    public ActionResult Logout(){
-        string? token = Request.Headers.Authorization;
-        if (token == null) return BadRequest("Token not found.");
-        _db.Delete(token);
-        return Ok("Logged Out Successfully.");
-    }
-    // GET: api/user/5
-    [HttpGet("{username}")]
-    public async Task<ActionResult<string>> Get(string username)
-    {
-        try{
-            User? user = await _userManager.FindByNameAsync(username);
-            if(user == null) return NotFound("User Not Found.");
-            var u = new{
-                user?.UserName,
-                user?.Email,
-                FirstName = user?.FirstName ?? "N/A",
-                LastName = user?.LastName ?? "N/A",
-                Address = user?.Address ?? "N/A"
-            };
-            return Ok(u);
-        }catch(Exception){
-            return NotFound();
-        }
     }
 
     // POST: api/user
