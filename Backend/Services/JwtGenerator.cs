@@ -10,10 +10,10 @@ public interface IJwtGenerator
     string GenerateJwtToken(User user, string role);
 }
 
-public class JWTGenerator(IConfiguration configuration,IRocksService rocksService) : IJwtGenerator
+public class JWTGenerator(IConfiguration configuration,LiteService LiteService) : IJwtGenerator
 {
     private readonly IConfiguration _configuration = configuration;
-    private readonly IRocksService _rocksDbService = rocksService;
+    private readonly LiteService _db = LiteService;
 
     public string GenerateJwtToken(User user, string role)
     {
@@ -27,7 +27,6 @@ public class JWTGenerator(IConfiguration configuration,IRocksService rocksServic
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity([
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim(ClaimTypes.Name, user.UserName!), // ✅ Added username
                 new Claim(ClaimTypes.Role, role),
             ]),
@@ -39,7 +38,7 @@ public class JWTGenerator(IConfiguration configuration,IRocksService rocksServic
 
         SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
         string tokenString = tokenHandler.WriteToken(token);
-        _rocksDbService.Add(user.Id, tokenString, tokenDescriptor.Expires!.Value);
+        _db.Add(user.Id, tokenString, tokenDescriptor.Expires!.Value);
 
         return tokenString;
     }

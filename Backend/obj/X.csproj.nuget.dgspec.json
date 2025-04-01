@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Ahmed\\projects\\Learning C#\\x\\Backend\\X.csproj": {}
+    "E:\\Ahmed\\projects\\Learning C#\\X\\Backend\\X.csproj": {}
   },
   "projects": {
-    "E:\\Ahmed\\projects\\Learning C#\\x\\Backend\\X.csproj": {
+    "E:\\Ahmed\\projects\\Learning C#\\X\\Backend\\X.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Ahmed\\projects\\Learning C#\\x\\Backend\\X.csproj",
+        "projectUniqueName": "E:\\Ahmed\\projects\\Learning C#\\X\\Backend\\X.csproj",
         "projectName": "X",
-        "projectPath": "E:\\Ahmed\\projects\\Learning C#\\x\\Backend\\X.csproj",
+        "projectPath": "E:\\Ahmed\\projects\\Learning C#\\X\\Backend\\X.csproj",
         "packagesPath": "C:\\Users\\AM\\.nuget\\packages\\",
-        "outputPath": "E:\\Ahmed\\projects\\Learning C#\\x\\Backend\\obj\\",
+        "outputPath": "E:\\Ahmed\\projects\\Learning C#\\X\\Backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\AM\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -46,6 +46,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "LiteDB": {
+              "target": "Package",
+              "version": "[5.0.21, )"
+            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[8.0.3, )"
@@ -65,10 +69,6 @@
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",
               "version": "[8.0.3, )"
-            },
-            "RocksDB": {
-              "target": "Package",
-              "version": "[9.10.0.55496, )"
             },
             "Serilog.AspNetCore": {
               "target": "Package",

@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using RocksDbSharp;
 using Serilog;
 using X.Services;
 
@@ -18,14 +17,7 @@ var jwtSettings = new {
 };
 
 string ConnectionString = builder.Configuration.GetConnectionString("MySQLConnectionString")!;
-string dbPath = Path.Combine(AppContext.BaseDirectory, builder.Configuration["RocksDB:Filename"]!);
 
-// ✅ Configure Rocks.db
-builder.Services.AddSingleton(provider =>
-{
-    var options = new DbOptions().SetCreateIfMissing(true);
-    return RocksDb.Open(options, "rocksdb_data"); // Database directory
-});
 
 // ✅ Configure Serilog for Logging
 Log.Logger = new LoggerConfiguration()
@@ -40,7 +32,7 @@ Log.Logger = new LoggerConfiguration()
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 builder.Services.AddSingleton<JWTGenerator>();
 builder.Logging.AddSerilog(Log.Logger);
-builder.Services.AddSingleton<IRocksService,RocksService>();
+builder.Services.AddSingleton<LiteService>();
 // ✅ Configure Authentication
 builder.Services.AddAuthentication(options => {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -80,15 +72,18 @@ builder.Services.AddAuthentication(options => {
                 return context.Response.WriteAsync("{ \"error\": \"Unauthorized - Token required\" }");
             },
             OnMessageReceived = context => {
-                var dbService = context.HttpContext.RequestServices.GetRequiredService<IRocksService>();
                 string? token = context.Request.Headers.Authorization;
-                string? userId = context.Principal?.FindFirst(ClaimTypes.Name)?.Value;
-                if(userId != null && token != null){
-                    string? dbToken = dbService.Get(userId);
-                    if(dbToken == null || dbToken != token){
-                        context.Fail("Unauthorized - Invalid Token");
-                    }
-                }   
+                if(token == null || token.Contains("Bearer") == false){
+                    context.Fail("{ \"error\": \"UnAuthroized - Token required\" }");
+                    return Task.CompletedTask;
+                }
+                context.Request.Headers.Authorization = token = token.Split(" ")[1];
+                return Task.CompletedTask;
+            },
+            OnForbidden = context =>
+            {
+                context.Response.ContentType = "application/json";
+                context.Response.WriteAsync("{ \"error\": \"UnAuthroized - Token required\" }");
                 return Task.CompletedTask;
             }
         };

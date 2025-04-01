@@ -9,10 +9,10 @@ namespace X.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UserController(UserManager<User> userManager,IRocksService db,JWTGenerator jwtGenerator) : ControllerBase
+public class UserController(UserManager<User> userManager,LiteService liteService,JWTGenerator jwtGenerator) : ControllerBase
 {
     private readonly UserManager<User> _userManager= userManager;
-    private readonly IRocksService _db = db;
+    private readonly LiteService _db = liteService;
     private readonly IJwtGenerator _jwtGenerator = jwtGenerator;
 
 
@@ -21,8 +21,9 @@ public class UserController(UserManager<User> userManager,IRocksService db,JWTGe
     public ActionResult Logout(){
         string? token = Request.Headers.Authorization;
         if (token == null) return BadRequest("Token not found.");
-        _db.Delete(token);
-        return Ok("Logged Out Successfully.");
+        token = token.Split(" ")[1];
+        _db.Remove(token);
+        return Ok($"Logged out successfully.");
     }
 
     // GET: api/user
@@ -43,10 +44,11 @@ public class UserController(UserManager<User> userManager,IRocksService db,JWTGe
     [HttpPost("login")]
     public async Task<ActionResult<string>> Login(LoginUser user){
         User? u = await _userManager.FindByEmailAsync(user.Email);
-        Console.WriteLine(u);
         if(u == null) return NotFound("User Not Found.");
         if(await _userManager.CheckPasswordAsync(u, user.Password)){
-            return Ok(new{jwtToken= _jwtGenerator.GenerateJwtToken(u, "User")});
+            string jwtToken = _jwtGenerator.GenerateJwtToken(u, "User");
+            _db.Add(jwtToken, u.Id, DateTime.Now.AddDays(90)); //30days till token expires same as in JWTGenerator.cs
+            return Ok(new{ jwtToken, message = "Login Successful"});
         }
         return Ok("Wrong Password Entered, Try Again.");
     }
