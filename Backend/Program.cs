@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -55,37 +54,51 @@ builder.Services.AddAuthentication(options => {
 
         options.Events = new JwtBearerEvents
         {
-            OnTokenValidated = context => {
+            OnMessageReceived = context => {
+                string? token = context.Request.Headers.Authorization.FirstOrDefault();
+                if(token == null || token.Contains("Bearer") == false){
+                    context.Fail("Unauthorized - Token required."); // ✅ Use plain string
+                }
+                return Task.CompletedTask;
+            },
+            OnTokenValidated = context =>
+            {
+                string? token = context.Request.Headers.Authorization.FirstOrDefault();
+                token = token?.Substring("Bearer ".Length).Trim() ?? string.Empty;
+                LiteService _db = context.HttpContext.RequestServices.GetRequiredService<LiteService>();
+                string? tokenFetchedFromLite = _db.Get(token!) ?? null;
+                if(string.IsNullOrEmpty(tokenFetchedFromLite)){
+                    context.Fail("Please Login, token expired.");
+                }
+
                 return Task.CompletedTask;
             },
             OnAuthenticationFailed = context =>
             {
+                context.NoResult(); // ✅ Prevents writing response twice
                 context.Response.StatusCode = 401;
                 context.Response.ContentType = "application/json";
                 return context.Response.WriteAsync("{ \"error\": \"Invalid token\" }");
             },
-            OnChallenge = context =>
-            {
-                context.HandleResponse(); // ✅ Prevents redirect loops
-                context.Response.StatusCode = 401;
-                context.Response.ContentType = "application/json";
-                return context.Response.WriteAsync("{ \"error\": \"Unauthorized - Token required\" }");
-            },
-            OnMessageReceived = context => {
-                string? token = context.Request.Headers.Authorization;
-                if(token == null || token.Contains("Bearer") == false){
-                    context.Fail("{ \"error\": \"UnAuthroized - Token required\" }");
-                    return Task.CompletedTask;
-                }
-                context.Request.Headers.Authorization = token = token.Split(" ")[1];
-                return Task.CompletedTask;
-            },
             OnForbidden = context =>
             {
+                context.Response.StatusCode = 403;
                 context.Response.ContentType = "application/json";
-                context.Response.WriteAsync("{ \"error\": \"UnAuthroized - Token required\" }");
-                return Task.CompletedTask;
-            }
+                return context.Response.WriteAsync("{ \"error\": \"UnAuthroized - Token required\" }");
+            },
+            OnChallenge = context =>{
+                if (context.Response.HasStarted) {
+                    return Task.CompletedTask;
+                }
+                    
+                context.HandleResponse();
+                context.Response.StatusCode = 401;
+                context.Response.ContentType = "application/json";
+                
+                // Make sure this completes properly
+                var result = context.Response.WriteAsync("{ \"error\": \"Unauthorized - Token required\" }");
+                return result;
+            },
         };
     }
 );

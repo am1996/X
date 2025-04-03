@@ -2419,3 +2419,4 @@ System.InvalidOperationException: StatusCode cannot be set because the response 
    at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
    at Microsoft.AspNetCore.Watch.BrowserRefresh.BrowserRefreshMiddleware.InvokeAsync(HttpContext context)
    at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequests[TContext](IHttpApplication`1 application)
+2025-04-01 15:02:52.303 +02:00 [DBG] Token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFtMTk5NiIsInJvbGUiOiJVc2VyIiwibmJmIjoxNzQzNTEyNTIwLCJleHAiOjE3NTEyODg1MjAsImlhdCI6MTc0MzUxMjUyMCwiaXNzIjoiWCIsImF1ZCI6IlhEUVdFQSJ9.nZVwUXsBaxnhSGCWIiuEE3P4W-eWwNnOrGgoLZmWuWE, Username: 

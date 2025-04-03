@@ -25,7 +25,6 @@ namespace X.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            Log.Debug("JWT Auth Token: "+ _configuration["JwtSettings:Secret"] ?? "Secret Key not found");
             List<Post> posts = [.. _x_context.Posts];
             return Ok(posts);
         }
