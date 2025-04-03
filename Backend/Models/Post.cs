@@ -1,4 +1,3 @@
-
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,9 +8,9 @@ public class Post{
     required public string Title { get; set; }
     required public string Content { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.Now;
-    public DateTime UpdatedAt { get; set; }
-    public int Likes { get; set; }
-    public int Dislikes { get; set; }
+    public DateTime? UpdatedAt { get; set; }
+    public int? Likes { get; set; } = 0;
+    public int? Dislikes { get; set; } = 0;
     [ForeignKey("User")]
-    required public string UserId { get; set; }
+    public string? UserId { get; set; }
 }

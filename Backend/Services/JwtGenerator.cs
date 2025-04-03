@@ -27,6 +27,7 @@ public class JWTGenerator(IConfiguration configuration,LiteService LiteService) 
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity([
+                new Claim(ClaimTypes.NameIdentifier, user.Id!), // ✅ Added username
                 new Claim(ClaimTypes.Name, user.UserName!), // ✅ Added username
                 new Claim(ClaimTypes.Role, role),
             ]),

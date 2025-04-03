@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,9 +17,13 @@ namespace X.Controllers
         // POST: api/post
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost]
-        public void Post()
-        {          
-            Log.Information(Request.Headers.Authorization!);
+        public ActionResult Post(Post post)
+        {
+            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? throw new Exception("User not found in claims");
+            post.UserId = userId;
+            _x_context.Posts.Add(post);
+            _x_context.SaveChanges();
+            return Ok(post);
         }
         // GET: api/post
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -37,6 +42,14 @@ namespace X.Controllers
             Post? post = _x_context.Posts.Find(id);
             if(post == null) return NotFound();
             return Ok(post);
+        }
+        [HttpDelete("{id}")]
+        public ActionResult<string> Delete(int id)
+        {
+            Post? post = _x_context.Posts.Find(id);
+            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value!;
+
+            return Ok(User.Claims.ToArray());
         }
     }
 }
