@@ -13,6 +13,8 @@ public class Comment{
     [ForeignKey("Post")]
     public required int PostId { get; set; }
     [Required,ForeignKey("User")]
-    public required int UserId { get; set; }
+    public required string UserId { get; set; }
     public DateTime UpdatedAt{get;set;}
+    public virtual Post? Post { get; set; } // Navigation to the Post
+    public virtual User? User { get; set; } // Navigation to the User
 }

@@ -69,5 +69,35 @@ namespace X.Controllers
             _x_context.SaveChanges();
             return Ok(existingPost);
         }
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPut("{id}/like")]
+        public ActionResult<string> Like(int id){
+            Post? post = _x_context.Posts.Find(id);
+            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value!;
+            if(post == null) return NotFound();
+            Like l = post.Likes?.Where(l=> l.UserId == userId).FirstOrDefault()!;
+            if(l != null){
+                post.Likes?.Remove(l);
+                _x_context.Likes.Remove(l);
+                return Ok(new {message="Like removed successfully"});
+            }
+            _x_context.SaveChanges();
+            return Ok(new {message="Like added successfully"});
+        }
+                [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPut("{id}/dislike")]
+        public ActionResult<string> Dislike(int id){
+            Post? post = _x_context.Posts.Find(id);
+            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value!;
+            if(post == null) return NotFound();
+            Dislike l = post.Dislikes?.Where(l=> l.UserId == userId).FirstOrDefault()!;
+            if(l != null){
+                post.Dislikes?.Remove(l);
+                _x_context.Dislikes.Remove(l);
+                return Ok(new {message="Dislike removed successfully"});
+            }
+            _x_context.SaveChanges();
+            return Ok(new {message="Dislike added successfully"});
+        }
     }
 }

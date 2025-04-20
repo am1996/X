@@ -9,8 +9,9 @@ public class Post{
     required public string Content { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime? UpdatedAt { get; set; }
-    public int? Likes { get; set; } = 0;
-    public int? Dislikes { get; set; } = 0;
     [ForeignKey("User")]
     public string? UserId { get; set; }
+    public virtual User? User { get; set; }
+    public virtual ICollection<Like>? Likes { get; set; }
+    public virtual ICollection<Dislike>? Dislikes { get; set; }
 }
