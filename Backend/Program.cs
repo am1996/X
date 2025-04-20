@@ -55,7 +55,6 @@ builder.Services.AddAuthentication(options => {
         options.Events = new JwtBearerEvents
         {
             OnMessageReceived = context => {
-                Log.Information("TODO 1");
                 string? token = context.Request.Headers.Authorization.FirstOrDefault();
                 if(token == null || token.Contains("Bearer") == false){
                     context.Fail("Unauthorized - Token required."); // ✅ Use plain string
@@ -64,7 +63,6 @@ builder.Services.AddAuthentication(options => {
             },
             OnTokenValidated = context =>
             {
-                Log.Information("TODO 2");
                 string? token = context.Request.Headers.Authorization.FirstOrDefault();
                 token = token?.Substring("Bearer ".Length).Trim() ?? string.Empty;
                 LiteService _db = context.HttpContext.RequestServices.GetRequiredService<LiteService>();
@@ -77,7 +75,6 @@ builder.Services.AddAuthentication(options => {
             },
             OnForbidden = context =>
             {
-                Log.Information("TODO 4");
                 context.Response.StatusCode = 403;
                 context.Response.ContentType = "application/json";
                 context.Response.WriteAsync("{ \"error\": \"UnAuthroized - Token required\" }");

@@ -43,13 +43,31 @@ namespace X.Controllers
             if(post == null) return NotFound();
             return Ok(post);
         }
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpDelete("{id}")]
         public ActionResult<string> Delete(int id)
         {
             Post? post = _x_context.Posts.Find(id);
             string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value!;
-
-            return Ok(User.Claims.ToArray());
+            if(post == null) return NotFound();
+            if(post.UserId != userId) return Unauthorized("You are not authorized to delete this post.");
+            _x_context.Posts.Remove(post);
+            _x_context.SaveChanges();
+            return Ok(new {message="Post deleted successfully"});
+        }
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPut("{id}")]
+        public ActionResult<string> Put(int id, Post post)
+        {
+            Post? existingPost = _x_context.Posts.Find(id);
+            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value!;
+            if(existingPost == null) return NotFound();
+            if(existingPost.UserId != userId) return Unauthorized("You are not authorized to update this post.");
+            existingPost.Title = post.Title;
+            existingPost.Content = post.Content;
+            existingPost.UpdatedAt = DateTime.Now;
+            _x_context.SaveChanges();
+            return Ok(existingPost);
         }
     }
 }
