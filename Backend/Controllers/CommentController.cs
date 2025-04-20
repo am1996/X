@@ -52,5 +52,16 @@ namespace X.Controllers
             _x_context.SaveChanges();
             return Ok(new {message="Comment deleted successfully"});
         }
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpDelete("{id}/update")]
+        public ActionResult<string> Put(int id, Comment comment){
+            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? throw new Exception("User not found in claims");
+            Comment? existingComment = _x_context.Comments.Find(id);
+            if(existingComment == null) return NotFound();
+            if(existingComment.UserId != userId) return Unauthorized("You are not authorized to update this comment.");
+            existingComment.Content = comment.Content;
+            _x_context.SaveChanges();
+            return Ok(new {message="Comment updated successfully"});
+        }
     }
 }
