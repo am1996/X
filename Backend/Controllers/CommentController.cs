@@ -41,5 +41,16 @@ namespace X.Controllers
             if(comment == null) return NotFound();
             return Ok(comment);
         }
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpDelete("{id}")]
+        public ActionResult<string> Delete(int id){
+            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? throw new Exception("User not found in claims");
+            Comment? comment = _x_context.Comments.Find(id);
+            if(comment == null) return NotFound();
+            if(comment.UserId != userId) return Unauthorized("You are not authorized to delete this comment.");
+            _x_context.Comments.Remove(comment);
+            _x_context.SaveChanges();
+            return Ok(new {message="Comment deleted successfully"});
+        }
     }
 }
