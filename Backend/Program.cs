@@ -59,6 +59,7 @@ builder.Services.AddAuthentication(options => {
                 if(token == null || token.Contains("Bearer") == false){
                     context.Fail("Unauthorized - Token required."); // ✅ Use plain string
                 }
+                token = token?["Bearer ".Length..].Trim() ?? string.Empty;
                 return Task.CompletedTask;
             },
             OnTokenValidated = context =>
