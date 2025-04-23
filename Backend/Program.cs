@@ -65,7 +65,7 @@ builder.Services.AddAuthentication(options => {
             OnTokenValidated = context =>
             {
                 string? token = context.Request.Headers.Authorization.FirstOrDefault();
-                token = token?.Substring("Bearer ".Length).Trim() ?? string.Empty;
+                token = token?["Bearer ".Length..].Trim() ?? string.Empty;
                 LiteService _db = context.HttpContext.RequestServices.GetRequiredService<LiteService>();
                 string? tokenFetchedFromLite = _db.Get(token!) ?? null;
                 if(tokenFetchedFromLite == null){

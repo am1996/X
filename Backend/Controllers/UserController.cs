@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -47,7 +48,7 @@ public class UserController(UserManager<User> userManager,LiteService liteServic
         if(u == null) return NotFound("User Not Found.");
         if(await _userManager.CheckPasswordAsync(u, user.Password)){
             string jwtToken = _jwtGenerator.GenerateJwtToken(u, "User");
-            _db.Add(jwtToken, u.Id, DateTime.Now.AddDays(90)); //30days till token expires same as in JWTGenerator.cs
+            _db.Add(jwtToken, u.Id, DateTime.Now.AddDays(90)); //30 days till token expires same as in JWTGenerator.cs
             return Ok(new{ jwtToken, message = "Login Successful"});
         }
         return Ok("Wrong Password Entered, Try Again.");
@@ -81,10 +82,38 @@ public class UserController(UserManager<User> userManager,LiteService liteServic
         }
     }
 
-    // PUT: api/user/5
-    [HttpPut("{id}")]
-    public void Put(string id, [FromBody] string value)
+    // PUT: api/user/update
+    [HttpPut("update")]
+    public ActionResult Put(Dictionary<string,string> Data)
     {
+        string key = Data.Select(x => x.Key).FirstOrDefault() ?? throw new Exception("Key not found in dictionary");
+        string value = Data.Select(x => x.Value).FirstOrDefault() ?? throw new Exception("Value not found in dictionary");
+        string id = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value!;
+        User? u = _userManager.FindByIdAsync(id).Result;
+        if(u != null){
+            switch(key.ToLower()){
+                case "username":
+                    u.UserName = value;
+                    break;
+                case "email":
+                    u.Email = value;
+                    break;
+                case "firstname":
+                    u.FirstName = value;
+                    break;
+                case "lastname":
+                    u.LastName = value;
+                    break;
+                case "address":
+                    u.Address = value;
+                    break;
+                default:
+                    return BadRequest("Invalid Key.");
+            }
+            _userManager.UpdateAsync(u);
+            return Ok(new{user=u, message = "User Updated Successfully"});
+        }
+        return NotFound("User Not Found.");
     }
 
     // DELETE: api/user/5
