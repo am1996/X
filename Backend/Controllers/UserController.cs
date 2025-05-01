@@ -8,8 +8,8 @@ using X.Services;
 
 namespace X.Controllers;
 
-[ApiController]
 [Route("api/[controller]")]
+[ApiController]
 public class UserController(UserManager<User> userManager,LiteService liteService,JWTGenerator jwtGenerator) : ControllerBase
 {
     private readonly UserManager<User> _userManager= userManager;

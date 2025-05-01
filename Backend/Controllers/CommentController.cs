@@ -7,6 +7,8 @@ using X.Models;
 
 namespace X.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class CommentController(XContext xContext,IConfiguration configuration): ControllerBase
     {
         private readonly XContext _x_context= xContext;
