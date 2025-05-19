@@ -42,10 +42,11 @@ else
             "Bearer",
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJiOGZmY2U5MC05MGQ4LTQ4MzItYmY0Ni1mYTNhYTdmZmMyNWMiLCJ1bmlxdWVfbmFtZSI6ImFtMTk5NiIsInJvbGUiOiJVc2VyIiwibmJmIjoxNzQ1NDQzOTQwLCJleHAiOjE3NTMyMTk5NDAsImlhdCI6MTc0NTQ0Mzk0MCwiaXNzIjoiWCIsImF1ZCI6IlhEUVdFQSJ9.H7RSp9K-RSzY8B7M1fBQV7b-jUYSMIp6GaoFtApVIAY"
         );
-        posts = await httpClient.GetFromJsonAsync<Post[]>("http://localhost:5118/api/post/");
+        string posts = await httpClient.GetAsync("http://localhost:5118/api/post/").Result.Content.ReadAsStringAsync();
+        Console.WriteLine(posts);
     }
     public class Post {
-        required public string Id { get; set; }
+        required public int Id { get; set; }
         required public string Title { get; set; }
         required public string Content { get; set; }
         required public DateTime CreatedAt { get; set; }
