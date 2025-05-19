@@ -24,6 +24,19 @@
 
     private async Task LoginFunc()
     {
+        string jwtToken = string.Empty;
+        // make post request to the API
+        // using HttpClient
+        using var httpClient = new HttpClient();
+        var response = await httpClient.PostAsJsonAsync("http://localhost:5118/api/user/login", new { username, password });
+        if (response.IsSuccessStatusCode)
+        {
+            jwtToken = await response.Content.ReadAsStringAsync();
+        }
+        else
+        {
+            message = "Login failed. Please check your credentials.";
+        }
         Console.WriteLine($"Username: {username}, Password: {password}");
     }
 

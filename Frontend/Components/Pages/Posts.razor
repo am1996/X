@@ -39,7 +39,7 @@ else
 }
 
 @code {
-    private Post?[] postsArray = Array.Empty<Post?>();
+    private Post[] postsArray = Array.Empty<Post?>();
     protected override async Task OnInitializedAsync()
     {
         using var httpClient = new HttpClient();

@@ -1,12 +1,11 @@
 {
   "Version": 1,
-  "Hash": "VCg0eFMFjHH135qnSOy6rmh5+4iXm5IwZevAZYnKH6E=",
+  "Hash": "8H6Vide29yUxR5sJA2kF5Wio4wXBIggbxGTsppT3+68=",
   "Source": "X",
   "BasePath": "_content/X",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [],
-  "Assets": [],
-  "Endpoints": []
+  "Assets": []
 }
