@@ -7,7 +7,7 @@
 
 <p>This component demonstrates showing data.</p>
 
-@if (forecasts == null)
+@if (posts == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -16,20 +16,16 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Date</th>
+                <th>Title</th>
                 <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in forecasts)
+            @foreach (var post in posts)
             {
                 <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
+                    <td>@post.Title</td>
+                    <td>@post.Content</td>
                 </tr>
             }
         </tbody>
@@ -37,28 +33,23 @@ else
 }
 
 @code {
-    private WeatherForecast[]? forecasts;
-
+    private Post[] posts;
     protected override async Task OnInitializedAsync()
     {
-        // Simulate asynchronous loading to demonstrate streaming rendering
-        await Task.Delay(500);
-
-        var startDate = DateOnly.FromDateTime(DateTime.Now);
-        var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
-        forecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        {
-            Date = startDate.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = summaries[Random.Shared.Next(summaries.Length)]
-        }).ToArray();
+        using var httpClient = new HttpClient();
+        httpClient.DefaultRequestHeaders.Authorization =
+        new System.Net.Http.Headers.AuthenticationHeaderValue(
+            "Bearer",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJiOGZmY2U5MC05MGQ4LTQ4MzItYmY0Ni1mYTNhYTdmZmMyNWMiLCJ1bmlxdWVfbmFtZSI6ImFtMTk5NiIsInJvbGUiOiJVc2VyIiwibmJmIjoxNzQ1NDQzOTQwLCJleHAiOjE3NTMyMTk5NDAsImlhdCI6MTc0NTQ0Mzk0MCwiaXNzIjoiWCIsImF1ZCI6IlhEUVdFQSJ9.H7RSp9K-RSzY8B7M1fBQV7b-jUYSMIp6GaoFtApVIAY"
+        );
+        posts = await httpClient.GetFromJsonAsync<Post[]>("http://localhost:5118/api/post/");
     }
-
-    private class WeatherForecast
-    {
-        public DateOnly Date { get; set; }
-        public int TemperatureC { get; set; }
-        public string? Summary { get; set; }
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    public class Post {
+        required public string Id { get; set; }
+        required public string Title { get; set; }
+        required public string Content { get; set; }
+        required public DateTime CreatedAt { get; set; }
+        required public DateTime UpdatedAt { get; set; }
+        required public string UserId { get; set; }
     }
 }
