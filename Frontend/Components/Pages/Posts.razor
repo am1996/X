@@ -1,9 +1,9 @@
 ﻿@using System.Text.Json
 @using System.Net.Http.Json
-@page "/weather"
+@page "/posts"
 @attribute [StreamRendering]
 
-<PageTitle>Weather</PageTitle>
+<PageTitle>Posts</PageTitle>
 
 <h1>Weather</h1>
 
@@ -39,7 +39,7 @@ else
 }
 
 @code {
-    private Post[] postsArray = Array.Empty<Post>();
+    private Post?[] postsArray = Array.Empty<Post?>();
     protected override async Task OnInitializedAsync()
     {
         using var httpClient = new HttpClient();

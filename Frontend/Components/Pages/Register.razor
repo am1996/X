@@ -1,0 +1,44 @@
+﻿@page "/register"
+@rendermode InteractiveServer
+
+<PageTitle>Register</PageTitle>
+
+<h1>Register</h1>
+<div class="=form-group">
+    <label for="Email">Email</label>
+    <input id="Email" @bind="Email" class="form-control" placeholder="Email" />
+</div>
+<div class="=form-group">
+    <label for="username">Username</label>
+    <input id="username" @bind="username" class="form-control" placeholder="Username" />
+</div>
+<br/>
+<div class="form-group">
+    <label for="password">Password</label>
+    <input id="password" @bind="password" type="password" class="form-control" placeholder="Password" />
+</div>
+<br>
+<div class="form-group">
+    <label for="confirmPassword">Confirm Password</label>
+    <input id="confirmPassword" @bind="confirmPassword" type="password" class="form-control" placeholder="Confirm Password" />
+</div>
+<br>
+<button class="btn btn-primary" @onclick="RegisterFunc">Register</button>
+<p>@message</p>
+
+@code {
+    private string Email = string.Empty;
+    private string username = string.Empty;
+    private string password = string.Empty;
+    private string confirmPassword = string.Empty;
+    private string message = string.Empty;
+
+    private async Task RegisterFunc()
+    {
+        Console.WriteLine($"Email: {Email}, Username: {username}, Password: {password}, Confirm Password: {confirmPassword}");
+        if (password != confirmPassword)
+        {
+            message = "Passwords do not match.";
+        }
+    }
+}
