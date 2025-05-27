@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "fT/73V7MId8=",
+  "dgSpecHash": "pG3dEUgYPow=",
   "success": true,
-  "projectFilePath": "E:\\Ahmed\\projects\\Learning C#\\X\\Backend\\X.csproj",
+  "projectFilePath": "E:\\Ahmed\\projects\\Learning_Cs\\X\\Backend\\X.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\AM\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\AM\\.nuget\\packages\\litedb\\5.0.21\\litedb.5.0.21.nupkg.sha512",

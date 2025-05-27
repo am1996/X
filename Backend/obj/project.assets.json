@@ -3975,19 +3975,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\AM\\.nuget\\packages\\": {}
+    "C:\\Users\\AM\\.nuget\\packages\\": {},
+    "E:\\Basma\\Components\\Offline Packages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Ahmed\\projects\\Learning C#\\X\\Backend\\X.csproj",
+      "projectUniqueName": "E:\\Ahmed\\projects\\Learning_Cs\\X\\Backend\\X.csproj",
       "projectName": "X",
-      "projectPath": "E:\\Ahmed\\projects\\Learning C#\\X\\Backend\\X.csproj",
+      "projectPath": "E:\\Ahmed\\projects\\Learning_Cs\\X\\Backend\\X.csproj",
       "packagesPath": "C:\\Users\\AM\\.nuget\\packages\\",
-      "outputPath": "E:\\Ahmed\\projects\\Learning C#\\X\\Backend\\obj\\",
+      "outputPath": "E:\\Ahmed\\projects\\Learning_Cs\\X\\Backend\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "E:\\Basma\\Components\\Offline Packages"
+      ],
       "configFilePaths": [
         "C:\\Users\\AM\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 24.2.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -3996,6 +4001,7 @@
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "C:\\Program Files\\dotnet\\library-packs": {},
+        "E:\\Basma\\Components\\System\\Components\\Packages": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
