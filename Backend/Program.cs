@@ -99,7 +99,7 @@ builder.Services.AddIdentity<User, IdentityRole>()
     .AddDefaultTokenProviders();
 
 var app = builder.Build();
-
+app.UseCors(policy => policy.WithOrigins("*").AllowAnyMethod().AllowAnyHeader());
 app.UseRouting(); 
 app.UseAuthentication(); 
 app.UseAuthorization();
