@@ -1,4 +1,7 @@
 <form #f="ngForm" (ngSubmit)="submit()">
+    @if(error !=""){
+        <div style="color: red">{{ error }}</div>
+    }
     <div>
         <label for="email" style="display: block;">Email: </label>
         <input required #userEmail="ngModel" name="email" placeholder="Enter E-Mail" [(ngModel)]="email"  type="email">
