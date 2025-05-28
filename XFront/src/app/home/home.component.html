@@ -1,1 +1,14 @@
-<p>home works!</p>
+@if(isBrowsing && data){
+    @for(obj of data(); track obj.id){
+        <div>
+            <h3>{{ obj.title }}</h3>
+            <p>{{ obj.content }}</p>
+            <small>Created At: {{ obj.createdAt }} &Tab;</small>
+            <small>Created By: {{ obj.createdBy ?? "Null" }}</small>
+        </div>
+        <hr>
+    }
+}
+@else {
+    <div>Loading...</div>
+}

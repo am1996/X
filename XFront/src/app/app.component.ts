@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Component, inject, PLATFORM_ID } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
+import { SessionStorageService } from './Services/SessionStorage/session-storage.service';
 
 @Component({
   selector: 'app-root',
@@ -9,5 +11,14 @@ import { RouterModule, RouterOutlet } from '@angular/router';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'X';
+  public title = 'X';
+  public loggedIn = false;
+  constructor(private sessionStorage: SessionStorageService){
+    if(sessionStorage.getItem("jwt")){
+      this.loggedIn = true;
+    }
+  }
+  logOut(){
+    sessionStorage.removeItem("jwt");
+  }
 }
