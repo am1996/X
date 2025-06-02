@@ -20,10 +20,15 @@ public class UserController(UserManager<User> userManager,LiteService liteServic
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpPost("logout")]
     public ActionResult Logout(){
-        string? token = Request.Headers.Authorization;
+        string? token = Request.Cookies["X-Access-Token"];
         if (token == null) return BadRequest("Token not found.");
         token = token.Split(" ")[1];
         _db.Remove(token);
+        Response.Cookies.Append("X-Access-Token", "", new CookieOptions
+        {
+            Expires = DateTime.Now.AddDays(-1),
+            HttpOnly = true,
+        });
         return Ok($"Logged out successfully.");
     }
 
@@ -49,7 +54,12 @@ public class UserController(UserManager<User> userManager,LiteService liteServic
         if(await _userManager.CheckPasswordAsync(u, user.Password)){
             string jwtToken = _jwtGenerator.GenerateJwtToken(u, "User");
             _db.Add(jwtToken, u.Id, DateTime.Now.AddDays(90)); //30 days till token expires same as in JWTGenerator.cs
-            return Ok(new{ jwtToken, message = "Login Successful"});
+            
+            Response.Cookies.Append("jwt", jwtToken, new CookieOptions{
+                HttpOnly = true,
+                Expires = DateTime.Now.AddDays(90)
+            });
+            return Ok(new { message = "Login Successful" });
         }
         return Ok("Wrong Password Entered, Try Again.");
     }

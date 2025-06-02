@@ -55,17 +55,12 @@ builder.Services.AddAuthentication(options => {
         options.Events = new JwtBearerEvents
         {
             OnMessageReceived = context => {
-                string? token = context.Request.Headers.Authorization.FirstOrDefault();
-                if(token == null || token.Contains("Bearer") == false){
-                    context.Fail("Unauthorized - Token required."); // ✅ Use plain string
-                }
-                token = token?["Bearer ".Length..].Trim() ?? string.Empty;
+                context.Token = context.Request.Cookies["X-Access-Token"];
                 return Task.CompletedTask;
             },
             OnTokenValidated = context =>
             {
-                string? token = context.Request.Headers.Authorization.FirstOrDefault();
-                token = token?["Bearer ".Length..].Trim() ?? string.Empty;
+                string? token = context.Request.Cookies["X-Access-Token"];
                 LiteService _db = context.HttpContext.RequestServices.GetRequiredService<LiteService>();
                 string? tokenFetchedFromLite = _db.Get(token!) ?? null;
                 if(tokenFetchedFromLite == null){
