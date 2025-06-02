@@ -13,12 +13,6 @@ import { SessionStorageService } from './Services/SessionStorage/session-storage
 export class AppComponent {
   public title = 'X';
   public loggedIn = false;
-  constructor(private sessionStorage: SessionStorageService){
-    if(sessionStorage.getItem("jwt")){
-      this.loggedIn = true;
-    }
-  }
-  logOut(){
-    sessionStorage.removeItem("jwt");
-  }
+  constructor(){}
+  logOut(){}
 }
