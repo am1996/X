@@ -1,8 +1,7 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Component, inject, PLATFORM_ID, Signal } from '@angular/core';
+import { Component, inject, PLATFORM_ID, signal, Signal } from '@angular/core';
 import { SessionStorageService } from '../Services/SessionStorage/session-storage.service';
 import { isPlatformBrowser } from '@angular/common';
-import  { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-home',
@@ -18,10 +17,18 @@ export class HomeComponent {
   constructor(private http: HttpClient, private session: SessionStorageService){
     this.isBrowsing = isPlatformBrowser(this.platformId);
     const token = "Bearer " + this.session.getItem("jwt");
-    this.data = toSignal(this.http.get("http://localhost:5118/api/post/",{
-      headers : {
-        Authorization: token,
+    this.http.get("http://localhost:5118/api/post/",{
+      withCredentials: true,
+    }).subscribe({
+      next: (response) => {
+        // Assign the response directly or use a signal creation method
+        this.data = signal(response);
       },
-    }));
+      error: (error) => {
+        console.error("Error fetching data:", error);
+        // Handle the error appropriately
+        this.data = signal([]);
+      }
+    });
   }
 }

@@ -16,6 +16,18 @@ public class UserController(UserManager<User> userManager,LiteService liteServic
     private readonly LiteService _db = liteService;
     private readonly IJwtGenerator _jwtGenerator = jwtGenerator;
 
+    // Get: Auth Check
+    [HttpGet("authcheck")]
+    public ActionResult<string> AuthCheck()
+    {
+        string? token = Request.Cookies["X-Access-Token"];
+        if (token == null) return BadRequest("Token not found.");
+        token = token.Split(" ")[1];
+        if (_db.Get(token) is not null){
+            return Ok("authenticated");
+        }
+        return Unauthorized("User is not authenticated.");
+    }
 
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpPost("logout")]
@@ -55,9 +67,10 @@ public class UserController(UserManager<User> userManager,LiteService liteServic
             string jwtToken = _jwtGenerator.GenerateJwtToken(u, "User");
             _db.Add(jwtToken, u.Id, DateTime.Now.AddDays(90)); //30 days till token expires same as in JWTGenerator.cs
             
-            Response.Cookies.Append("jwt", jwtToken, new CookieOptions{
+            Response.Cookies.Append("jwt", jwtToken, new CookieOptions
+            {
                 HttpOnly = true,
-                Expires = DateTime.Now.AddDays(90)
+                Expires = DateTime.Now.AddDays(90),
             });
             return Ok(new { message = "Login Successful" });
         }

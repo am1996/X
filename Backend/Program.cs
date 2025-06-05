@@ -55,12 +55,12 @@ builder.Services.AddAuthentication(options => {
         options.Events = new JwtBearerEvents
         {
             OnMessageReceived = context => {
-                context.Token = context.Request.Cookies["X-Access-Token"];
+                context.Token = context.Request.Cookies["jwt"];
                 return Task.CompletedTask;
             },
             OnTokenValidated = context =>
             {
-                string? token = context.Request.Cookies["X-Access-Token"];
+                string? token = context.Request.Cookies["jwt"];
                 LiteService _db = context.HttpContext.RequestServices.GetRequiredService<LiteService>();
                 string? tokenFetchedFromLite = _db.Get(token!) ?? null;
                 if(tokenFetchedFromLite == null){
@@ -93,8 +93,18 @@ builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<XContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngular",
+        builder => builder.WithOrigins("http://localhost:4200") // Adjust the origin as needed
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials());
+});
+
 var app = builder.Build();
-app.UseCors(policy => policy.WithOrigins("*").AllowAnyMethod().AllowAnyHeader());
+
+app.UseCors("AllowAngular");
 app.UseRouting(); 
 app.UseAuthentication(); 
 app.UseAuthorization();

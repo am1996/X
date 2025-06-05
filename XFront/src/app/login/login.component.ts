@@ -3,6 +3,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, inject, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SessionStorageService } from '../Services/SessionStorage/session-storage.service';
 
 type StringMap = {[key:string]:string};
 
@@ -15,6 +16,7 @@ type StringMap = {[key:string]:string};
 })
 export class LoginComponent {
   public platformId = inject(PLATFORM_ID);
+  public sessionStorageService = inject(SessionStorageService);
   public isBrowser = false;
   public email: string="";
   public password: string="";
@@ -28,9 +30,9 @@ export class LoginComponent {
       password:this.password,
     }).subscribe({
       next: (response: StringMap) => {
-        if(response["jwtToken"]){
-          sessionStorage.setItem("jwt",response["jwtToken"]);
-          this.router.navigate(["/"]);
+        if(response){
+          console.log(response);
+          sessionStorage.setItem("user", "true");
         }
       },
       error: (err: StringMap)=>{
