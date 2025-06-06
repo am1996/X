@@ -16,14 +16,12 @@ type StringMap = {[key:string]:string};
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  public platformId = inject(PLATFORM_ID);
   public sessionStorageService = inject(SessionStorageService);
-  public isBrowser = false;
+  public platformId = inject(PLATFORM_ID);
   public email: string="";
   public password: string="";
   public error: string ="";
   constructor(private http: HttpClient, private router: Router){
-    this.isBrowser = isPlatformBrowser(this.platformId);
   }
   public submit(): void{
     this.http.post<StringMap>("http://localhost:5118/api/user/login",{
@@ -32,9 +30,10 @@ export class LoginComponent {
     }).subscribe({
       next: (response: StringMap) => {
         if(response){
-          console.log(response);
-          sessionStorage.setItem("user", "true");
-          this.router.navigate(["/home"]);
+          if(isPlatformBrowser(this.platformId)){
+            this.sessionStorageService.setItem("user", "true");
+            window.location.href = "/home";
+          }
         }
       },
       error: (err: StringMap)=>{

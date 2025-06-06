@@ -7,7 +7,6 @@ import { loadingInterceptor } from './Interceptors/loadingInterceptor/loader.int
 const serverConfig: ApplicationConfig = {
   providers: [
     provideServerRendering(),
-    provideHttpClient(withInterceptors([loadingInterceptor])),
   ],
 };
 

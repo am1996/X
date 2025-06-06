@@ -22,5 +22,6 @@ export class AppComponent {
   logOut(){
     this.sessionStorageService.removeItem('user');
     this.loggedIn = false;
+    window.location.href = '/login';
   }
 }
