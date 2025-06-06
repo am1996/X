@@ -19,7 +19,7 @@ export class SessionStorageService {
     }
     return false;
   }
-  clearToken(key: string): boolean{
+  removeItem(key: string): boolean{
     if(isPlatformBrowser(this.platformId)){
       sessionStorage.removeItem(key);
       return true;

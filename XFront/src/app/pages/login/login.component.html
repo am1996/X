@@ -1,0 +1,20 @@
+<form #f="ngForm" (ngSubmit)="submit()">
+    @if(error !=""){
+        <div style="color: red">{{ error }}</div>
+    }
+    <div>
+        <label for="email" style="display: block;">Email: </label>
+        <input required #userEmail="ngModel" name="email" placeholder="Enter E-Mail" [(ngModel)]="email"  type="email">
+        @if (userEmail.invalid && userEmail.touched) {
+            <small style="color:red; display: block;">Invalid Email</small>
+        }
+    </div>
+    <div>
+        <label style="display: block;" for="password">Password: </label>
+        <input required minlength="8" #userPassword="ngModel" name="password" placeholder="Enter Password" [(ngModel)]="password" type="password">
+        @if (userPassword.invalid && userPassword.touched) {
+            <small  style="color:red;">Enter Valid Password that is more than 8 characters</small>
+        }
+    </div>
+    <div><input type="submit" value="Login" [disabled]="f.invalid"></div>
+</form>

@@ -5,23 +5,10 @@ import { map, catchError, of } from 'rxjs';
 import { SessionStorageService } from '../../Services/SessionStorage/session-storage.service';
 
 export const guestGuard: CanMatchFn = () => {
-  const http = inject(HttpClient);
-  const router = inject(Router);
   const sessionStorageService = inject(SessionStorageService);
   if(sessionStorageService.getItem('user')) {
-    router.navigate(['/home']);
     return of(false);
+  }else{
+    return of(true);
   }
-  return http.get('http://localhost:5118/api/authcheck', {
-    withCredentials: true
-  }).pipe(
-    map(() => {
-      sessionStorageService.setItem('user', 'true');
-      return false;
-    }), // ✅ User is authenticated
-    catchError(() => {
-      router.navigate(['/home']);
-      return of(true); // ❌ Redirect if not authenticated
-    })
-  );
 };

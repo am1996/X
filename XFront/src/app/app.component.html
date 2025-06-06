@@ -1,10 +1,11 @@
+<loader-component></loader-component>
 <nav>
     <ul>
-        <li><a routerLink="/">Home</a></li>
         @if(!loggedIn){
             <li><a routerLink="/login">Login</a></li>
             <li><a routerLink="/register">Register</a></li>
         } @else {
+            <li><a routerLink="/home">Home</a></li>
             <li><button (click)="logOut()">Log Out</button></li>
         }
     </ul>

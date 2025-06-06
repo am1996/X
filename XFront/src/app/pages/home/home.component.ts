@@ -1,6 +1,6 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, inject, PLATFORM_ID, signal, Signal } from '@angular/core';
-import { SessionStorageService } from '../Services/SessionStorage/session-storage.service';
+import { SessionStorageService } from '../../Services/SessionStorage/session-storage.service';
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({

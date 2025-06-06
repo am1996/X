@@ -3,7 +3,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, inject, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { SessionStorageService } from '../Services/SessionStorage/session-storage.service';
+import { SessionStorageService } from '../../Services/SessionStorage/session-storage.service';
+// Update the import path to match the actual folder and file casing
 
 type StringMap = {[key:string]:string};
 
@@ -33,10 +34,13 @@ export class LoginComponent {
         if(response){
           console.log(response);
           sessionStorage.setItem("user", "true");
+          this.router.navigate(["/home"]);
         }
       },
       error: (err: StringMap)=>{
         this.error = err["message"];
+        this.email = "";
+        this.password = "";
       },
     });
   }
