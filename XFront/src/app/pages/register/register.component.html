@@ -1,1 +1,57 @@
-<p>register works!</p>
+<p>register Form</p>
+<form #f="ngForm" (ngSubmit)="submit()">
+    @if(error !=""){
+        <div style="color: red">{{ error }}</div>
+    }
+    <div>
+        <label for="username" style="display: block;">Username: </label>
+        <input required #userName="ngModel" name="username" placeholder="Enter Username" [(ngModel)]="registerForm.username"  type="text" required>
+        @if (userName.invalid && userName.touched) {
+            <small style="color:red; display: block;">Invalid Username</small>
+        }
+    </div>
+    <div>
+        <label for="email" style="display: block;">Email: </label>
+        <input #userEmail="ngModel" name="email" placeholder="Enter E-Mail" [(ngModel)]="registerForm.email"  type="email" required>
+        {{userEmail.errors | json}}
+        @if (userEmail.invalid && userEmail.touched) {
+            <small style="color:red; display: block;">Invalid Email</small>
+        }
+    </div>
+    <div>
+        <label for="firstname" style="display: block;">Firstname: </label>
+        <input #userFirstname="ngModel" name="firstname" placeholder="Enter Firstname" [(ngModel)]="registerForm.firstname"  type="text" required>
+        @if (userFirstname.invalid && userFirstname.touched) {
+            <small style="color:red; display: block;">Invalid Firstname</small>
+        }
+    </div>
+    <div>
+        <label for="Lastname" style="display: block;">Lastname: </label>
+        <input #userLastname="ngModel" name="Lastname" placeholder="Enter Lastname" [(ngModel)]="registerForm.lastname"  type="text" required>
+        @if (userLastname.invalid && userLastname.touched) {
+            <small style="color:red; display: block;">Invalid Lastname</small>
+        }
+    </div>
+    <div>
+        <label for="address" style="display: block;">Address: </label>
+        <input required #userAddress="ngModel" name="address" placeholder="Enter Address" [(ngModel)]="registerForm.address"  type="text" required>
+        @if (userAddress.invalid && userAddress.touched) {
+            <small style="color:red; display: block;">Invalid Address</small>
+        }
+    </div>
+    <div>
+        <label style="display: block;" for="password">Password: </label>
+        <input required minlength="8" #userPassword="ngModel" name="password" placeholder="Enter Password" [(ngModel)]="registerForm.password" type="password">
+        @if (userPassword.invalid && userPassword.touched) {
+            <small  style="color:red;">Enter Valid Password that is more than 8 characters</small>
+        }
+    </div>
+    <div>
+        <label style="display: block;" for="confirmPassword">Confirm Password: </label>
+        <input required #userConfirmPassword="ngModel" name="confirmPassword" placeholder="Confirm Password" [(ngModel)]="registerForm.confirmPassword" type="password">
+        @if (userConfirmPassword.invalid && userConfirmPassword.touched) {
+            <small  style="color:red;">Confirm Password is required</small>
+        }
+    </div>
+    <div><input type="submit" value="Register" [disabled]="f.invalid"></div>
+</form>
