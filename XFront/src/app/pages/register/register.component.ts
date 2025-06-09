@@ -24,6 +24,9 @@ export class RegisterComponent {
       "confirmPassword":""
     };
   }
+  passwordMismatch(){
+    return this.registerForm.password !== this.registerForm.confirmPassword;
+  }
   submit() {
     // Handle form submission logic here
     console.log('Form submitted:', this.registerForm);

@@ -1,4 +1,4 @@
-<p>register Form</p>
+<p>Registeration Form</p>
 <form #f="ngForm" (ngSubmit)="submit()">
     @if(error !=""){
         <div style="color: red">{{ error }}</div>
@@ -12,8 +12,7 @@
     </div>
     <div>
         <label for="email" style="display: block;">Email: </label>
-        <input #userEmail="ngModel" name="email" placeholder="Enter E-Mail" [(ngModel)]="registerForm.email"  type="email" required>
-        {{userEmail.errors | json}}
+        <input #userEmail="ngModel" name="email" placeholder="Enter E-Mail" [(ngModel)]="registerForm.email" required type="email" email>
         @if (userEmail.invalid && userEmail.touched) {
             <small style="color:red; display: block;">Invalid Email</small>
         }
@@ -41,17 +40,17 @@
     </div>
     <div>
         <label style="display: block;" for="password">Password: </label>
-        <input required minlength="8" #userPassword="ngModel" name="password" placeholder="Enter Password" [(ngModel)]="registerForm.password" type="password">
-        @if (userPassword.invalid && userPassword.touched) {
-            <small  style="color:red;">Enter Valid Password that is more than 8 characters</small>
+        <input pattern="" required minlength="8" #userPassword="ngModel" name="password" placeholder="Enter Password" [(ngModel)]="registerForm.password" type="password">
+        @if (userPassword.invalid && userPassword.touched || passwordMismatch()) {
+            <small  style="color:red; display: block;">Enter Valid Password that is more than 8 characters or password and confirm password don't match</small>
         }
     </div>
     <div>
         <label style="display: block;" for="confirmPassword">Confirm Password: </label>
         <input required #userConfirmPassword="ngModel" name="confirmPassword" placeholder="Confirm Password" [(ngModel)]="registerForm.confirmPassword" type="password">
-        @if (userConfirmPassword.invalid && userConfirmPassword.touched) {
-            <small  style="color:red;">Confirm Password is required</small>
+        @if (userConfirmPassword.invalid && userConfirmPassword.touched || passwordMismatch()) {
+            <small style="color:red; display: block;">Confirm Password is required and must match Password</small>
         }
     </div>
-    <div><input type="submit" value="Register" [disabled]="f.invalid"></div>
+    <div><input type="submit" value="Register" [disabled]="f.invalid || passwordMismatch()"></div>
 </form>

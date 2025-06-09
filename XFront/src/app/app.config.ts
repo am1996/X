@@ -8,11 +8,11 @@ import { loadingInterceptor } from './Interceptors/loadingInterceptor/loader.int
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
-    provideClientHydration(),
     provideHttpClient(
       withInterceptors([loadingInterceptor]),
       withFetch(),
-    )
+    ),
+    provideRouter(routes),
+    provideClientHydration(),
   ]
 };
