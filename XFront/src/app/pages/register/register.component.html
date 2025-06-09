@@ -5,9 +5,9 @@
     }
     <div>
         <label for="username" style="display: block;">Username: </label>
-        <input required #userName="ngModel" name="username" placeholder="Enter Username" [(ngModel)]="registerForm.username"  type="text" required>
+        <input pattern="[0-9a-zA-Z]*" required #userName="ngModel" name="username" placeholder="Enter Username" [(ngModel)]="registerForm.username"  type="text" required>
         @if (userName.invalid && userName.touched) {
-            <small style="color:red; display: block;">Invalid Username</small>
+            <small style="color:red; display: block;">Invalid Username, username can contain letters and numbers only.</small>
         }
     </div>
     <div>
