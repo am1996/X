@@ -549,11 +549,6 @@ E:\Ahmed\projects\Learning_Cs\X\Backend\obj\Debug\net8.0\X.MvcApplicationPartsAs
 E:\Ahmed\projects\Learning_Cs\X\Backend\obj\Debug\net8.0\X.sourcelink.json
 E:\Ahmed\projects\Learning_Cs\X\Backend\obj\Debug\net8.0\staticwebassets.build.json
 E:\Ahmed\projects\Learning_Cs\X\Backend\obj\Debug\net8.0\staticwebassets.development.json
-E:\Ahmed\projects\Learning_Cs\X\Backend\obj\Debug\net8.0\staticwebassets\msbuild.X.Microsoft.AspNetCore.StaticWebAssets.props
-E:\Ahmed\projects\Learning_Cs\X\Backend\obj\Debug\net8.0\staticwebassets\msbuild.build.X.props
-E:\Ahmed\projects\Learning_Cs\X\Backend\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.X.props
-E:\Ahmed\projects\Learning_Cs\X\Backend\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.X.props
-E:\Ahmed\projects\Learning_Cs\X\Backend\obj\Debug\net8.0\staticwebassets.pack.json
 E:\Ahmed\projects\Learning_Cs\X\Backend\obj\Debug\net8.0\scopedcss\bundle\X.styles.css
 E:\Ahmed\projects\Learning_Cs\X\Backend\obj\Debug\net8.0\X.csproj.Up2Date
 E:\Ahmed\projects\Learning_Cs\X\Backend\obj\Debug\net8.0\X.dll
@@ -561,3 +556,10 @@ E:\Ahmed\projects\Learning_Cs\X\Backend\obj\Debug\net8.0\refint\X.dll
 E:\Ahmed\projects\Learning_Cs\X\Backend\obj\Debug\net8.0\X.pdb
 E:\Ahmed\projects\Learning_Cs\X\Backend\obj\Debug\net8.0\X.genruntimeconfig.cache
 E:\Ahmed\projects\Learning_Cs\X\Backend\obj\Debug\net8.0\ref\X.dll
+E:\Ahmed\projects\Learning_Cs\X\Backend\bin\Debug\net8.0\X.staticwebassets.endpoints.json
+E:\Ahmed\projects\Learning_Cs\X\Backend\obj\Debug\net8.0\rpswa.dswa.cache.json
+E:\Ahmed\projects\Learning_Cs\X\Backend\obj\Debug\net8.0\rjimswa.dswa.cache.json
+E:\Ahmed\projects\Learning_Cs\X\Backend\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
+E:\Ahmed\projects\Learning_Cs\X\Backend\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
+E:\Ahmed\projects\Learning_Cs\X\Backend\obj\Debug\net8.0\staticwebassets.build.json.cache
+E:\Ahmed\projects\Learning_Cs\X\Backend\obj\Debug\net8.0\staticwebassets.build.endpoints.json
