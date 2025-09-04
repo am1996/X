@@ -22,11 +22,6 @@ export class HomeComponent {
         this.data = signal(response);
       },
       error: (error) => {
-        console.error("Error fetching data:", error);
-        this.error = "Failed to fetch data" + error.message;
-        if (isPlatformBrowser(this.platformId)) {
-          window.location.href = "/login";
-        }
         this.data = signal([]);
       }
     });

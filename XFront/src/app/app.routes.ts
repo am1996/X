@@ -8,9 +8,9 @@ import { HomeComponent } from './pages/home/home.component';
 import { AddPostComponent } from './pages/add-post/add-post.component';
 
 export const routes: Routes = [
-    {path: "", loadComponent: () => StartComponent, canMatch: [guestGuard],pathMatch: "full"},
+    {path: "", loadComponent: () => StartComponent},
     {path: "home", loadComponent: () => HomeComponent, canMatch: [authGuard]},
-    {path: "addPost", loadComponent: () => AddPostComponent, canMatch: [authGuard]},
+    {path: "addpost", loadComponent: () => AddPostComponent, canMatch: [authGuard]},
     {path:"login",loadComponent: () => LoginComponent, canMatch: [guestGuard]},
     {path:"register",loadComponent: () => RegisterComponent, canMatch: [guestGuard]},
 ];

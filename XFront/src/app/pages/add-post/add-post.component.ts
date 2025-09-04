@@ -16,7 +16,22 @@ export class AddPostComponent {
   submit(){
     console.log(this.title);
     console.log(this.content);
-    this.title = "";
-    this.content = "";
+    this.http.post("http://localhost:5118/api/post", {
+      title: this.title,
+      content: this.content
+    },{
+      withCredentials: true,
+    }).subscribe({
+      next: (response) => {
+        alert("Post added successfully");
+        window.location.href = "";
+        this.title = "";
+        this.content = "";
+      },
+      error: (error) => {
+        console.error("Error adding post:", error);
+        alert("Failed to add post: " + error.message);
+      }
+    });
   }
 }
