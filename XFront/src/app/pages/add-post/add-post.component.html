@@ -1,0 +1,11 @@
+<form>
+    <div>
+        <label for="title">Title</label>
+        <input id="title" [(ngModel)]="title" name="title" type="text" required/>
+    </div>
+    <div>
+        <label for="content">Content</label>
+        <textarea [(ngModel)]="content" id="content" name="content" rows="5" required></textarea>
+    </div>
+    <button (click)="submit()" type="button">Add Post</button>
+</form>
