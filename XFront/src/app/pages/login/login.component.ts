@@ -27,6 +27,8 @@ export class LoginComponent {
     this.http.post<StringMap>("http://localhost:5118/api/user/login",{
       email:this.email,
       password:this.password,
+    }, {
+      withCredentials: true 
     }).subscribe({
       next: (response: StringMap) => {
         if(response){

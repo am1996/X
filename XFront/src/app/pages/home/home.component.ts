@@ -15,8 +15,14 @@ export class HomeComponent {
   public error: string = "";
   public data: Signal<any> | undefined;
   constructor(private http: HttpClient, private session: SessionStorageService){
-    this.http.get("http://localhost:5118/api/post/",{
-      withCredentials: true,
+    this.http.get("http://localhost:5118/api/post",{ 
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Request-Method':'GET',
+        'Origin':'http://localhost:4200'
+      },
+      withCredentials: true 
     }).subscribe({
       next: (response) => {
         this.data = signal(response);

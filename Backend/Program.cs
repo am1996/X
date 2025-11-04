@@ -6,6 +6,17 @@ using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using X.Services;
 
+
+// ✅ Configure Serilog for Logging
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Warning)
+    .MinimumLevel.Override("System", Serilog.Events.LogEventLevel.Warning)
+    .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
+    .WriteTo.Console()
+    .CreateLogger();
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // ✅ Read JWT settings correctly
@@ -16,16 +27,6 @@ var jwtSettings = new {
 };
 
 string ConnectionString = builder.Configuration.GetConnectionString("MySQLConnectionString")!;
-
-
-// ✅ Configure Serilog for Logging
-Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Debug()
-    .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Warning)
-    .MinimumLevel.Override("System", Serilog.Events.LogEventLevel.Warning)
-    .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
-    .WriteTo.Console()
-    .CreateLogger();
 
 // ✅ Register Services
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
@@ -95,19 +96,22 @@ builder.Services.AddIdentity<User, IdentityRole>()
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAngular",
-        builder => builder.WithOrigins("http://localhost:4200") // Adjust the origin as needed
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials());
+    options.AddPolicy("AllowAngular", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+               .AllowAnyHeader()
+               .AllowAnyMethod()
+               .AllowCredentials();
+    });
 });
 
 var app = builder.Build();
 
 app.UseCors("AllowAngular");
 app.UseRouting(); 
-app.UseAuthentication(); 
+app.UseAuthentication();
 app.UseAuthorization();
+app.UseMiddleware<RequestLoggingMiddleware>();
 app.MapControllers();
 
 app.Run();
