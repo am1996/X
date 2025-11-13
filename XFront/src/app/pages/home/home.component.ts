@@ -1,10 +1,11 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, inject, PLATFORM_ID, signal, Signal } from '@angular/core';
+import { RouterModule, RouterOutlet } from '@angular/router';
 import { SessionStorageService } from '../../Services/SessionStorage/session-storage.service';
 
 @Component({
   standalone: true,
-  imports: [HttpClientModule],
+  imports: [HttpClientModule, RouterModule, RouterOutlet],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

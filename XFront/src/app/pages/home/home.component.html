@@ -5,6 +5,7 @@
             <p>{{ obj.content }}</p>
             <small>Created At: {{ obj.createdAt }} &Tab;</small>
             <small>Created By: {{ obj.createdBy ?? "Null" }}</small>
+            <li><a routerLink="/editpost/{{ obj.id }}">Edit Post</a></li>
         </div>
         <hr>
     }

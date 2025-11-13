@@ -12,7 +12,7 @@ export const appConfig: ApplicationConfig = {
       withInterceptors([loadingInterceptor]),
       withFetch(),
     ),
-    provideRouter(routes),
     provideClientHydration(),
+    provideRouter(routes),
   ]
 };
