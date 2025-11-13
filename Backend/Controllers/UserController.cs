@@ -70,10 +70,8 @@ public class UserController(UserManager<User> userManager,LiteService liteServic
             Response.Cookies.Append("jwt", jwtToken, new CookieOptions
             {
                 HttpOnly = true,
-                Secure = false, // Only true if using HTTPS
+                Secure = true, // Only true if using HTTPS
                 SameSite = SameSiteMode.None,
-                Expires = DateTime.UtcNow.AddDays(7),
-                Path = "/"
             });
             return Ok(new { message = "Login Successful" });
         }

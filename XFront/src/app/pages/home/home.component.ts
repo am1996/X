@@ -1,7 +1,6 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, inject, PLATFORM_ID, signal, Signal } from '@angular/core';
 import { SessionStorageService } from '../../Services/SessionStorage/session-storage.service';
-import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   standalone: true,
@@ -15,14 +14,8 @@ export class HomeComponent {
   public error: string = "";
   public data: Signal<any> | undefined;
   constructor(private http: HttpClient, private session: SessionStorageService){
-    this.http.get("http://localhost:5118/api/post",{ 
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Request-Method':'GET',
-        'Origin':'http://localhost:4200'
-      },
-      withCredentials: true 
+    this.http.get("http://localhost:5118/api/post",{
+      withCredentials: true
     }).subscribe({
       next: (response) => {
         this.data = signal(response);
