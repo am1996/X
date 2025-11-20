@@ -22,6 +22,7 @@ export class EditPostComponent implements OnInit{
         withCredentials: true
       }).subscribe({
         next: (response) => {
+          console.log(response)
           this.data =response;
         },
         error: (error) => {

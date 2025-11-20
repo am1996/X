@@ -1,10 +1,15 @@
-<p>edit-post works!</p>
+<form>
 @if(data){
-        <div>
-        <h3>{{ data.title }}</h3>
-        <p>{{ data.content }}</p>
-        <small>Created At: {{ data.createdAt }} &Tab;</small>
-        <small>Created By: {{ data.createdBy ?? "Null" }}</small>
+    <div>
+        <i>Title:</i>
+        <input type="text" value="{{data.title}}" />
     </div>
+    <div>
+        <i>content:</i>
+        <input type="text" value="{{data.content}}" />
+    </div>
+    <small>Created At: {{ data.createdAt }} &Tab;</small>
+    <small>Created By: {{ data.userId ?? "Null" }}</small>
 }
+</form>
 <hr>
