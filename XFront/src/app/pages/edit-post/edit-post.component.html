@@ -1,1 +1,10 @@
 <p>edit-post works!</p>
+@if(data){
+        <div>
+        <h3>{{ data.title }}</h3>
+        <p>{{ data.content }}</p>
+        <small>Created At: {{ data.createdAt }} &Tab;</small>
+        <small>Created By: {{ data.createdBy ?? "Null" }}</small>
+    </div>
+}
+<hr>
