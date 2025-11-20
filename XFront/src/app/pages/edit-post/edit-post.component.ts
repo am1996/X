@@ -13,22 +13,20 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 })
 export class EditPostComponent implements OnInit{
   postId: string | null = null;
-  public data: Signal<any> | undefined;
+  public data: any | undefined;
 
   ngOnInit(){
     this.route.paramMap.subscribe(params => {
       this.postId = params.get('id');
-    });
-    this.http.get(`http://localhost:5118/api/post/${this.postId}`,{
-      withCredentials: true
-    }).subscribe({
-      next: (response) => {
-        this.data = signal(response);
-        console.log(response);
-      },
-      error: (error) => {
-        this.data = signal([]);
-      }
+      this.http.get(`http://localhost:5118/api/post/${this.postId}`,{
+        withCredentials: true
+      }).subscribe({
+        next: (response) => {
+          this.data =response;
+        },
+        error: (error) => {
+        }
+      });
     });
   }
 
