@@ -2,16 +2,18 @@
 @if(data){
     <div>
         <i>Title:</i>
-        <input name="title" type="text" [(ngModel)]="data.title" />
+        <p>{{ data.title }}</p>
     </div>
     <div>
         <i>content:</i>
-        <input name="content" type="text" [(ngModel)]="data.content" />
+        <p>{{ data.content }}</p>
     </div>
     <small>Created At: {{ data.createdAt }} &Tab;</small>
     <small>Created By: {{ data.userId ?? "Null" }}</small>
+    <hr/>
+    <textarea cols="50" rows="10" name="comment" id="comment"></textarea>
     <br/>
-    <button (click)="editPost()">Edit</button>
+    <button (click)="addComment()">Add Comment</button>
 }
 </form>
 <hr>
