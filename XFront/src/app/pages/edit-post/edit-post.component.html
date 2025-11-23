@@ -2,16 +2,16 @@
 @if(data){
     <div>
         <i>Title:</i>
-        <input type="text" value="{{data.title}}" />
+        <input name="title" type="text" [(ngModel)]="data.title" />
     </div>
     <div>
         <i>content:</i>
-        <input type="text" value="{{data.content}}" />
+        <input name="content" type="text" [(ngModel)]="data.content" />
     </div>
     <small>Created At: {{ data.createdAt }} &Tab;</small>
     <small>Created By: {{ data.userId ?? "Null" }}</small>
     <br/>
-    <button type="submit">Edit</button>
+    <button type="submit" (click)="editPost()">Edit</button>
 }
 </form>
 <hr>
