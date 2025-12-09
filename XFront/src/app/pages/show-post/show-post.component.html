@@ -11,7 +11,7 @@
     <small>Created At: {{ data.createdAt }} &Tab;</small>
     <small>Created By: {{ data.userId ?? "Null" }}</small>
     <hr/>
-    <textarea cols="50" rows="10" name="comment" id="comment"></textarea>
+    <textarea [(ngModel)]="data.newComment" cols="50" rows="10" name="comment" id="comment"></textarea>
     <br/>
     <button (click)="addComment()">Add Comment</button>
 }

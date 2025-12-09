@@ -15,8 +15,9 @@ export class ShowPostComponent {
   data: any;
   postId: any;
   addComment(){
-    this.http.post(`http://localhost:5118/api/post/${this.postId}/comment`,{
-      content: this.data.newComment
+    this.http.post(`http://localhost:5118/api/comment`,{
+      postId: this.postId,
+      content: 
     },{
       withCredentials: true
     }).subscribe({
