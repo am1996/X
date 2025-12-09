@@ -16,16 +16,19 @@ export class ShowPostComponent {
   postId: any;
   addComment(){
     this.http.post(`http://localhost:5118/api/comment`,{
-      postId: this.postId,
-      content: 
+      PostId: this.postId,
+      content: this.data.newComment
     },{
-      withCredentials: true
+      withCredentials: true,
     }).subscribe({
-      next: (response: any) => {
-        this.data.comments.push(response);
-        this.data.newComment = '';
+      next: (response) => {
+        alert("Post added successfully");
+        window.location.href = "";
+        this.data.newComment = "";
       },
-      error: () => {
+      error: (error) => {
+        console.error("Error adding post:", error);
+        alert("Failed to add post: " + error.message);
       }
     });
   }

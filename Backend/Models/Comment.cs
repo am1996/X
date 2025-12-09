@@ -14,7 +14,7 @@ public class Comment{
     public required int PostId { get; set; }
     [Required,ForeignKey("User")]
     public required string UserId { get; set; }
-    public DateTime UpdatedAt{get;set;}
+    public DateTime UpdatedAt{get;set;} = DateTime.Now;
     public virtual Post? Post { get; set; } // Navigation to the Post
     public virtual User? User { get; set; } // Navigation to the User
 }

@@ -1,7 +1,9 @@
+using System.Diagnostics;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using X.Models;
 
 namespace X.Controllers
@@ -18,6 +20,7 @@ namespace X.Controllers
         [HttpPost]
         public ActionResult Post(Comment comment)
         {
+            Log.Fatal("User ID: reached");
             string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? throw new Exception("User not found in claims");
             comment.UserId = userId;
             _x_context.Comments.Add(comment);

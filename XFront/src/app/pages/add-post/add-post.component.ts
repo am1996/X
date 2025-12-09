@@ -14,8 +14,6 @@ export class AddPostComponent {
   title: string = "";
   constructor(private http: HttpClient){}
   submit(){
-    console.log(this.title);
-    console.log(this.content);
     this.http.post("http://localhost:5118/api/post", {
       title: this.title,
       content: this.content
