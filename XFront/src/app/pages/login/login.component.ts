@@ -37,8 +37,9 @@ export class LoginComponent {
           }
         }
       },
-      error: (err: StringMap)=>{
-        this.error = err["message"];
+      error: (err: any)=>{
+        console.log(err.error.text);
+        this.error = err?.error.text ?? err?.error ?? "Login failed";
         this.email = "";
         this.password = "";
       },

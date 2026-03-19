@@ -1,13 +1,12 @@
 import { inject } from '@angular/core';
-import { CanMatchFn, Router } from '@angular/router';
-import { map, catchError, of } from 'rxjs';
+import { CanActivateFn, Router } from '@angular/router';
 import { SessionStorageService } from '../../Services/SessionStorage/session-storage.service';
 
-export const authGuard: CanMatchFn = () => {
+export const authGuard: CanActivateFn = () => {
   const sessionStorageService = inject(SessionStorageService);
-  if(sessionStorageService.getItem('user')) {
-    return of(true);
-  }else{
-    return of(false);
+  const router = inject(Router);
+  if (sessionStorageService.getItem('user')) {
+    return true;
   }
+  return router.createUrlTree(['/login']);
 };

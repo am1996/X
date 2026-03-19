@@ -11,10 +11,10 @@ import { ShowPostComponent } from './pages/show-post/show-post.component';
 
 export const routes: Routes = [
     {path: "", loadComponent: () => StartComponent},
-    {path: "home", loadComponent: () => HomeComponent, canMatch: [authGuard]},
-    {path: "addpost", loadComponent: () => AddPostComponent, canMatch: [authGuard]},
-    {path: "editpost/:id", loadComponent: () => EditPostComponent, canMatch: [authGuard]},
-    {path: "showPost/:id", loadComponent: () => ShowPostComponent, canMatch: [authGuard]},
-    {path:"login",loadComponent: () => LoginComponent, canMatch: [guestGuard]},
-    {path:"register",loadComponent: () => RegisterComponent, canMatch: [guestGuard]},
+    {path: "home", loadComponent: () => HomeComponent, canActivate: [authGuard]},
+    {path: "addpost", loadComponent: () => AddPostComponent, canActivate: [authGuard]},
+    {path: "editpost/:id", loadComponent: () => EditPostComponent, canActivate: [authGuard]},
+    {path: "showPost/:id", loadComponent: () => ShowPostComponent, canActivate: [authGuard]},
+    {path:"login", loadComponent: () => LoginComponent, canActivate: [guestGuard]},
+    {path:"register", loadComponent: () => RegisterComponent, canActivate: [guestGuard]},
 ];

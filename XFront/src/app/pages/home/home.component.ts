@@ -1,3 +1,4 @@
+import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit, PLATFORM_ID, signal, Signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -5,7 +6,7 @@ import { SessionStorageService } from '../../Services/SessionStorage/session-sto
 
 @Component({
   standalone: true,
-  imports: [RouterModule],
+  imports: [CommonModule, DatePipe, RouterModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

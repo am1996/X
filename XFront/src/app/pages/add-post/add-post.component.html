@@ -1,11 +1,21 @@
-<form>
-    <div>
-        <label for="title">Title</label>
-        <input id="title" [(ngModel)]="title" name="title" type="text" required/>
-    </div>
-    <div>
-        <label for="content">Content</label>
-        <textarea [(ngModel)]="content" id="content" name="content" rows="5" required></textarea>
-    </div>
-    <button (click)="submit()" type="button">Add Post</button>
-</form>
+<div class="container py-5" style="max-width: 680px;">
+  <div class="card p-4">
+    <h4 class="fw-bold mb-4 text-white">New Post</h4>
+    <form>
+      <div class="mb-3">
+        <label class="form-label">Title</label>
+        <input id="title" [(ngModel)]="title" name="title" type="text" required
+          placeholder="What's on your mind?" class="form-control"/>
+      </div>
+      <div class="mb-4">
+        <label class="form-label">Content</label>
+        <textarea [(ngModel)]="content" id="content" name="content" rows="6" required
+          placeholder="Write your post..." class="form-control"></textarea>
+      </div>
+      <div class="d-flex justify-content-end gap-2">
+        <a routerLink="/home" class="btn btn-outline-secondary">Cancel</a>
+        <button (click)="submit()" type="button" class="btn btn-primary">Publish</button>
+      </div>
+    </form>
+  </div>
+</div>

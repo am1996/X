@@ -1,17 +1,28 @@
-<form>
-@if(data){
-    <div>
-        <i>Title:</i>
-        <input name="title" type="text" [(ngModel)]="data.title" />
-    </div>
-    <div>
-        <i>content:</i>
-        <input name="content" type="text" [(ngModel)]="data.content" />
-    </div>
-    <small>Created At: {{ data.createdAt }} &Tab;</small>
-    <small>Created By: {{ data.userId ?? "Null" }}</small>
-    <br/>
-    <button (click)="editPost()">Edit</button>
-}
-</form>
-<hr>
+<div class="container py-5" style="max-width: 680px;">
+  <div class="card p-4">
+    <h4 class="fw-bold mb-4">Edit Post</h4>
+    @if(data){
+      <form>
+        <div class="mb-3">
+          <label class="form-label">Title</label>
+          <input name="title" type="text" [(ngModel)]="data.title" class="form-control"/>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Content</label>
+          <textarea name="content" rows="6" [(ngModel)]="data.content" class="form-control"></textarea>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mt-2">
+          <small class="text-muted">
+            <i class="bi bi-person-circle me-1"></i>{{ data.username ?? "Unknown" }}
+            &nbsp;&bull;&nbsp;
+            <i class="bi bi-clock me-1"></i>{{ data.createdAt }}
+          </small>
+          <div class="d-flex gap-2">
+            <a routerLink="/home" class="btn btn-outline-secondary btn-sm">Cancel</a>
+            <button (click)="editPost()" class="btn btn-primary btn-sm">Save Changes</button>
+          </div>
+        </div>
+      </form>
+    }
+  </div>
+</div>

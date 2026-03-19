@@ -1,19 +1,29 @@
-<form>
-@if(data){
-    <div>
-        <i>Title:</i>
-        <p>{{ data.title }}</p>
+<div class="container py-5" style="max-width: 680px;">
+  @if(data){
+    <div class="card p-4 mb-4">
+      <div class="d-flex justify-content-between align-items-start mb-3">
+        <h4 class="fw-bold mb-0 text-white">{{ data.title }}</h4>
+        <a routerLink="/editpost/{{ postId }}" class="btn btn-outline-secondary btn-sm">
+          <i class="bi bi-pencil"></i>
+        </a>
+      </div>
+      <p style="white-space: pre-wrap;" class="mb-4 text-white">{{ data.content }}</p>
+      <small class="text-muted">
+        <i class="bi bi-person-circle me-1"></i>{{ data.username ?? "Unknown" }}
+        &nbsp;&bull;&nbsp;
+        <i class="bi bi-clock me-1"></i>{{ data.createdAt | date:'mediumDate' }}
+      </small>
     </div>
-    <div>
-        <i>content:</i>
-        <p>{{ data.content }}</p>
+
+    <div class="card p-4">
+      <h6 class="fw-semibold mb-3 text-white">Add a comment</h6>
+      <form>
+        <textarea [(ngModel)]="data.newComment" rows="4" name="comment" id="comment"
+          placeholder="Write a comment..." class="form-control mb-3"></textarea>
+        <div class="d-flex justify-content-end">
+          <button (click)="addComment()" class="btn btn-primary btn-sm">Post Comment</button>
+        </div>
+      </form>
     </div>
-    <small>Created At: {{ data.createdAt }} &Tab;</small>
-    <small>Created By: {{ data.userId ?? "Null" }}</small>
-    <hr/>
-    <textarea [(ngModel)]="data.newComment" cols="50" rows="10" name="comment" id="comment"></textarea>
-    <br/>
-    <button (click)="addComment()">Add Comment</button>
-}
-</form>
-<hr>
+  }
+</div>

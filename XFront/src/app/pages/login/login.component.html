@@ -1,20 +1,33 @@
-<form #f="ngForm" (ngSubmit)="submit()">
-    @if(error !=""){
-        <div style="color: red">{{ error }}</div>
+<div class="min-vh-100 d-flex align-items-center justify-content-center">
+  <div class="card p-4 w-100" style="max-width: 420px;">
+    <h4 class="mb-4 text-center fw-bold">Welcome back</h4>
+
+    @if(error !== ""){
+      <div class="alert alert-danger py-2">{{ error }}</div>
     }
-    <div>
-        <label for="email" style="display: block;">Email: </label>
-        <input required #userEmail="ngModel" name="email" placeholder="Enter E-Mail" [(ngModel)]="email"  type="email">
-        @if (userEmail.invalid && userEmail.touched) {
-            <small style="color:red; display: block;">Invalid Email</small>
-        }
-    </div>
-    <div>
-        <label style="display: block;" for="password">Password: </label>
-        <input required minlength="8" #userPassword="ngModel" name="password" placeholder="Enter Password" [(ngModel)]="password" type="password">
-        @if (userPassword.invalid && userPassword.touched) {
-            <small  style="color:red;">Enter Valid Password that is more than 8 characters</small>
-        }
-    </div>
-    <div><input type="submit" value="Login" [disabled]="f.invalid"></div>
-</form>
+
+    <form #f="ngForm" (ngSubmit)="submit()">
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input required #userEmail="ngModel" name="email" placeholder="you@example.com"
+          [(ngModel)]="email" type="email" class="form-control"
+          [class.is-invalid]="userEmail.invalid && userEmail.touched">
+        <div class="invalid-feedback">Enter a valid email address.</div>
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label">Password</label>
+        <input required minlength="8" #userPassword="ngModel" name="password"
+          placeholder="••••••••" [(ngModel)]="password" type="password" class="form-control"
+          [class.is-invalid]="userPassword.invalid && userPassword.touched">
+        <div class="invalid-feedback">Password must be at least 8 characters.</div>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100" [disabled]="f.invalid">Login</button>
+    </form>
+
+    <p class="text-center text-muted mt-3 mb-0 small">
+      Don't have an account? <a routerLink="/register">Register</a>
+    </p>
+  </div>
+</div>

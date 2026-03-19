@@ -1,14 +1,19 @@
 <loader-component></loader-component>
-<nav>
-    <ul>
-        @if(!loggedIn){
-            <li><a routerLink="/login">Login</a></li>
-            <li><a routerLink="/register">Register</a></li>
-        } @else {
-            <li><a routerLink="/home">Home</a></li>
-            <li><a routerLink="/addpost">Add Post</a></li>
-            <li><button (click)="logOut()">Log Out</button></li>
-        }
-    </ul>
+
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">&#88;</a>
+    <div class="d-flex gap-2">
+      @if(!loggedIn){
+        <a routerLink="/login" class="btn btn-outline-secondary btn-sm">Login</a>
+        <a routerLink="/register" class="btn btn-primary btn-sm">Register</a>
+      } @else {
+        <a routerLink="/home" class="nav-link px-2">Home</a>
+        <a routerLink="/addpost" class="nav-link px-2">New Post</a>
+        <button class="btn btn-outline-danger btn-sm" (click)="logOut()">Logout</button>
+      }
+    </div>
+  </div>
 </nav>
+
 <router-outlet />

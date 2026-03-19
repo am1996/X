@@ -1,1 +1,114 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  background-color: #0f0f0f;
+  color: #e0e0e0;
+  font-family: 'Segoe UI', sans-serif;
+  min-height: 100vh;
+}
+
+.navbar {
+  background-color: #111 !important;
+  border-bottom: 1px solid #222;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: #fff !important;
+  letter-spacing: 2px;
+}
+
+.nav-link {
+  color: #ccc !important;
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: #fff !important;
+}
+
+.card {
+  background-color: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+}
+
+.card:hover {
+  border-color: #444;
+  transition: border-color 0.2s;
+}
+
+.form-control, .form-control:focus {
+  background-color: #1e1e1e;
+  border: 1px solid #444;
+  color: #f0f0f0;
+  box-shadow: none;
+}
+
+.form-control:focus {
+  border-color: #777;
+}
+
+.form-control::placeholder {
+  color: #888;
+}
+
+.btn-primary {
+  background-color: #fff;
+  border-color: #fff;
+  color: #000;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  background-color: #ddd;
+  border-color: #ddd;
+  color: #000;
+}
+
+.btn-primary:disabled {
+  background-color: #444;
+  border-color: #444;
+  color: #888;
+}
+
+.btn-outline-secondary {
+  border-color: #555;
+  color: #ccc;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #222;
+  color: #fff;
+  border-color: #666;
+}
+
+.btn-outline-danger {
+  border-color: #c0392b;
+  color: #e74c3c;
+}
+
+.btn-outline-danger:hover {
+  background-color: #c0392b;
+  color: #fff;
+}
+
+.text-muted {
+  color: #999 !important;
+}
+
+a {
+  color: #ccc;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #fff;
+}
+
+hr {
+  border-color: #2a2a2a;
+}
+
+textarea.form-control {
+  resize: vertical;
+}

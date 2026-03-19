@@ -1,56 +1,76 @@
-<p>Registeration Form</p>
-<form #f="ngForm" (ngSubmit)="submit()">
-    @if(error !=""){
-        <div style="color: red">{{ error }}</div>
+<div class="min-vh-100 d-flex align-items-center justify-content-center py-5">
+  <div class="card p-4 w-100" style="max-width: 500px;">
+    <h4 class="mb-4 text-center fw-bold">Create an account</h4>
+
+    @if(error !== ""){
+      <div class="alert alert-danger py-2">{{ error }}</div>
     }
-    <div>
-        <label for="username" style="display: block;">Username: </label>
-        <input pattern="[0-9a-zA-Z]*" required #userName="ngModel" name="username" placeholder="Enter Username" [(ngModel)]="registerForm.username"  type="text" required>
-        @if (userName.invalid && userName.touched) {
-            <small style="color:red; display: block;">Invalid Username, username can contain letters and numbers only.</small>
-        }
-    </div>
-    <div>
-        <label for="email" style="display: block;">Email: </label>
-        <input #userEmail="ngModel" name="email" placeholder="Enter E-Mail" [(ngModel)]="registerForm.email" required type="email" email>
-        @if (userEmail.invalid && userEmail.touched) {
-            <small style="color:red; display: block;">Invalid Email</small>
-        }
-    </div>
-    <div>
-        <label for="firstname" style="display: block;">Firstname: </label>
-        <input #userFirstname="ngModel" name="firstname" placeholder="Enter Firstname" [(ngModel)]="registerForm.firstname"  type="text" required>
-        @if (userFirstname.invalid && userFirstname.touched) {
-            <small style="color:red; display: block;">Invalid Firstname</small>
-        }
-    </div>
-    <div>
-        <label for="Lastname" style="display: block;">Lastname: </label>
-        <input #userLastname="ngModel" name="Lastname" placeholder="Enter Lastname" [(ngModel)]="registerForm.lastname"  type="text" required>
-        @if (userLastname.invalid && userLastname.touched) {
-            <small style="color:red; display: block;">Invalid Lastname</small>
-        }
-    </div>
-    <div>
-        <label for="address" style="display: block;">Address: </label>
-        <input required #userAddress="ngModel" name="address" placeholder="Enter Address" [(ngModel)]="registerForm.address"  type="text" required>
-        @if (userAddress.invalid && userAddress.touched) {
-            <small style="color:red; display: block;">Invalid Address</small>
-        }
-    </div>
-    <div>
-        <label style="display: block;" for="password">Password: </label>
-        <input pattern="" required minlength="8" #userPassword="ngModel" name="password" placeholder="Enter Password" [(ngModel)]="registerForm.password" type="password">
-        @if (userPassword.invalid && userPassword.touched || passwordMismatch()) {
-            <small  style="color:red; display: block;">Enter Valid Password that is more than 8 characters or password and confirm password don't match</small>
-        }
-    </div>
-    <div>
-        <label style="display: block;" for="confirmPassword">Confirm Password: </label>
-        <input required #userConfirmPassword="ngModel" name="confirmPassword" placeholder="Confirm Password" [(ngModel)]="registerForm.confirmPassword" type="password">
-        @if (userConfirmPassword.invalid && userConfirmPassword.touched || passwordMismatch()) {
-            <small style="color:red; display: block;">Confirm Password is required and must match Password</small>
-        }
-    </div>
-    <div><input type="submit" value="Register" [disabled]="f.invalid || passwordMismatch()"></div>
-</form>
+
+    <form #f="ngForm" (ngSubmit)="submit()">
+      <div class="row g-3">
+        <div class="col-12">
+          <label class="form-label">Username</label>
+          <input pattern="[0-9a-zA-Z]*" required #userName="ngModel" name="username"
+            placeholder="johndoe123" [(ngModel)]="registerForm.username" type="text"
+            class="form-control" [class.is-invalid]="userName.invalid && userName.touched">
+          <div class="invalid-feedback">Letters and numbers only.</div>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">Email</label>
+          <input #userEmail="ngModel" name="email" placeholder="you@example.com"
+            [(ngModel)]="registerForm.email" required type="email" email
+            class="form-control" [class.is-invalid]="userEmail.invalid && userEmail.touched">
+          <div class="invalid-feedback">Enter a valid email address.</div>
+        </div>
+
+        <div class="col-6">
+          <label class="form-label">First Name</label>
+          <input #userFirstname="ngModel" name="firstname" placeholder="John"
+            [(ngModel)]="registerForm.firstname" type="text" required
+            class="form-control" [class.is-invalid]="userFirstname.invalid && userFirstname.touched">
+          <div class="invalid-feedback">Required.</div>
+        </div>
+
+        <div class="col-6">
+          <label class="form-label">Last Name</label>
+          <input #userLastname="ngModel" name="Lastname" placeholder="Doe"
+            [(ngModel)]="registerForm.lastname" type="text" required
+            class="form-control" [class.is-invalid]="userLastname.invalid && userLastname.touched">
+          <div class="invalid-feedback">Required.</div>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">Address</label>
+          <input required #userAddress="ngModel" name="address" placeholder="123 Main St"
+            [(ngModel)]="registerForm.address" type="text"
+            class="form-control" [class.is-invalid]="userAddress.invalid && userAddress.touched">
+          <div class="invalid-feedback">Required.</div>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">Password</label>
+          <input required minlength="8" #userPassword="ngModel" name="password"
+            placeholder="••••••••" [(ngModel)]="registerForm.password" type="password"
+            class="form-control" [class.is-invalid]="userPassword.invalid && userPassword.touched">
+          <div class="invalid-feedback">At least 8 characters.</div>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">Confirm Password</label>
+          <input required #userConfirmPassword="ngModel" name="confirmPassword"
+            placeholder="••••••••" [(ngModel)]="registerForm.confirmPassword" type="password"
+            class="form-control" [class.is-invalid]="(userConfirmPassword.touched && userConfirmPassword.invalid) || passwordMismatch()">
+          <div class="invalid-feedback">Passwords do not match.</div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100 mt-4"
+        [disabled]="f.invalid || passwordMismatch()">Register</button>
+    </form>
+
+    <p class="text-center text-muted mt-3 mb-0 small">
+      Already have an account? <a routerLink="/login">Login</a>
+    </p>
+  </div>
+</div>

@@ -47,8 +47,14 @@ export class RegisterComponent {
         this.router.navigate(['/login']);
       },
       error: (error: any) => {
-        console.error('Registration failed:', error);
-        this.error = 'Registration failed: ' + (error.error?.message || 'Unknown error');
+        console.log(error.error);
+        if(error.error?.message){
+          this.error = error.error.message;
+        }else{
+          console.log(error.error.errors);
+          this.error = error.error.errors[Object.keys(error.error.errors)[0]][0];
+          
+        }
       }
     })
   }
