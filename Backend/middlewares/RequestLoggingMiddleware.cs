@@ -14,27 +14,35 @@ public class RequestLoggingMiddleware
     {
         var request = context.Request;
 
-        // 🔹 Read request body (if available)
-        string body = "";
+        string requestBody = "";
         if (request.Method == HttpMethods.Post || request.Method == HttpMethods.Put)
         {
             request.EnableBuffering();
             using var reader = new StreamReader(request.Body, Encoding.UTF8, leaveOpen: true);
-            body = await reader.ReadToEndAsync();
-            request.Body.Position = 0; // reset stream
+            requestBody = await reader.ReadToEndAsync();
+            request.Body.Position = 0;
         }
 
-        // 🔹 Continue to next middleware
+        var originalBody = context.Response.Body;
+        using var memStream = new MemoryStream();
+        context.Response.Body = memStream;
+
         var sw = System.Diagnostics.Stopwatch.StartNew();
         await _next(context);
         sw.Stop();
 
-        // 🔹 Log the request info
-        Log.Information("HTTP {Method} {Path} responded {StatusCode} in {Elapsed:0.000} ms | Body: {Body}",
+        memStream.Position = 0;
+        string responseBody = await new StreamReader(memStream).ReadToEndAsync();
+        memStream.Position = 0;
+        await memStream.CopyToAsync(originalBody);
+        context.Response.Body = originalBody;
+
+        Log.Information("HTTP {Method} {Path} responded {StatusCode} in {Elapsed:0.000} ms | ReqBody: {ReqBody} | ResBody: {ResBody}",
             request.Method,
             request.Path,
             context.Response.StatusCode,
             sw.Elapsed.TotalMilliseconds,
-            body);
+            requestBody,
+            responseBody);
     }
 }

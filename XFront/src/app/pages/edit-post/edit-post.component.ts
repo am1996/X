@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { RouterModule, RouterOutlet } from '@angular/router';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-post',
   standalone: true,
-  imports: [CommonModule, RouterModule, HttpClientModule,FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './edit-post.component.html',
   styleUrls: ['./edit-post.component.css']
 })

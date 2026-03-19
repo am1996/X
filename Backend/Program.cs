@@ -83,14 +83,21 @@ builder.Services.AddAuthentication(options => {
 
 builder.Services.AddAuthorization();
 builder.Services.AddRouting();
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+        options.JsonSerializerOptions.PropertyNameCaseInsensitive = true);
 
 // ✅ Configure Database
 builder.Services.AddDbContext<XContext>(options =>
     options.UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString)));
 
 // ✅ Configure Identity
-builder.Services.AddIdentity<User, IdentityRole>()
+builder.Services.AddIdentity<User, IdentityRole>(options => {
+    options.Password.RequireDigit = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 8;
+})
     .AddEntityFrameworkStores<XContext>()
     .AddDefaultTokenProviders();
 
@@ -107,8 +114,8 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+app.UseRouting();
 app.UseCors("AllowAngular");
-app.UseRouting(); 
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<RequestLoggingMiddleware>();

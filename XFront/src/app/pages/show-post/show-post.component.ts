@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, ActivatedRoute } from '@angular/router';
@@ -7,7 +7,7 @@ import { RouterModule, ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-show-post',
   standalone: true,
-  imports: [CommonModule, RouterModule, HttpClientModule,FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './show-post.component.html',
   styleUrls: ['./show-post.component.css']
 })

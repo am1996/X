@@ -70,8 +70,8 @@ public class UserController(UserManager<User> userManager,LiteService liteServic
             Response.Cookies.Append("jwt", jwtToken, new CookieOptions
             {
                 HttpOnly = true,
-                Secure = true, // Only true if using HTTPS
-                SameSite = SameSiteMode.None,
+                Secure = false,
+                SameSite = SameSiteMode.Lax,
             });
             return Ok(new { message = "Login Successful" });
         }
@@ -102,7 +102,7 @@ public class UserController(UserManager<User> userManager,LiteService liteServic
                 address = model.Address
             }});
         }else{
-            return BadRequest("One of the fields is missing.");
+            return BadRequest(result.Errors.Select(e => e.Description));
         }
     }
 
