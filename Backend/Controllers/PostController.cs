@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using X.Models;
 
@@ -30,7 +31,12 @@ namespace X.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            List<Post> posts = [.. _x_context.Posts];
+            var posts = _x_context.Posts
+                .Include(p => p.User)
+                .Select(p => new {
+                    p.Id, p.Title, p.Content, p.CreatedAt, p.UpdatedAt,
+                    Username = p.User != null ? p.User.UserName : "Unknown"
+                }).ToList();
             return Ok(posts);
         }
 
@@ -39,8 +45,14 @@ namespace X.Controllers
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
-            Post? post = _x_context.Posts.Find(id);
-            if(post == null) return NotFound();
+            var post = _x_context.Posts
+                .Include(p => p.User)
+                .Where(p => p.Id == id)
+                .Select(p => new {
+                    p.Id, p.Title, p.Content, p.CreatedAt, p.UpdatedAt,
+                    Username = p.User != null ? p.User.UserName : "Unknown"
+                }).FirstOrDefault();
+            if (post == null) return NotFound();
             return Ok(post);
         }
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
